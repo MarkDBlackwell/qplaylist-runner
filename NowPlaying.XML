@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml-stylesheet type='text/xsl' href='NowPlaying.xsl'?>
+<NowPlaying>
+<Call>WTMD-FM</Call>
+<Events>
+<SS32Event pos='0' valid='true'>
+
+<CatId>MUS</CatId>
+<CutId>00PB</CutId>
+<Type>SONG</Type>
+<SecondsRemaining>  </SecondsRemaining>
+<Title><![CDATA[fake song]]></Title>
+<Artist><![CDATA[fake band]]></Artist>
+<Intro>00</Intro>
+<Len>04:57</Len>
+<Raw><![CDATA[ ]]></Raw>
+
+</SS32Event>
+</Events>
+</NowPlaying>
