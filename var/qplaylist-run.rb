@@ -10,6 +10,7 @@ require 'pp'
 module ::QplaylistPrerecord
   module Impure
     class Run
+
       def self.run
         a = nil # Predefine for block.
         ::File.open filename_in, 'r' do |f|
@@ -38,19 +39,19 @@ module ::QplaylistPrerecord
 
       private
 
-      def filename_in
+      def self.filename_in
         'input.txt'
       end
 
-      def filename_out
-#       'Z:\NowPlaying.XML'
-        'NowPlaying.XML'
+      def self.filename_out
+        'Z:\NowPlaying.XML'
+#       'NowPlaying.XML'
       end
 
-      def time_start
+      def self.time_start
 # Varies, by the show:
-#       ::Time.new 2018, 5, 12, 7, 0
-        ::Time.new 2018, 5, 11, 23, 37
+        ::Time.new 2018, 5, 12, 7, 0
+#       ::Time.new 2018, 5, 11, 23, 47
       end
     end
 
