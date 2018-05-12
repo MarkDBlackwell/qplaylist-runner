@@ -17,22 +17,14 @@ module ::QplaylistPrerecord
           a = f.readlines
         end
         lines = a.map{|e| e.chomp}.reject{|e| e.empty?}
-#p 'lines='; pp lines
         raise unless 0 == lines.length % 3
         songs_unsorted = []
         lines.each_slice 3 do |group|
           info = group.join "\n"
           songs_unsorted.push(Song.new info)
         end
-#print '(lines[0..2].join "\n")='; pp (lines[0..2].join "\n")
-#print 'songs_unsorted.first='; pp songs_unsorted.first
-#print 'songs_unsorted.first.artist='; pp songs_unsorted.first.artist
-#print 'songs_unsorted.first.title='; pp songs_unsorted.first.title
-#print 'songs_unsorted.first.minute='; pp songs_unsorted.first.minute
-#print 'songs_unsorted.first.second='; pp songs_unsorted.first.second
         songs = songs_unsorted.sort
-#print 'songs='; pp songs
-        time_start = ::Time.new 2018, 4, 22, 16, 0
+        time_start = ::Time.new 2018, 5, 12, 7, 0
         songs.each do |song|
           time_running = ::Time.now
           time_song = time_start + song.minute * 60 + song.second
@@ -61,21 +53,14 @@ module ::QplaylistPrerecord
       end
 
       attr_reader(*names)
-#     attr_accessor(*names)
-#     attr_accessor :artist
 
       def initialize(song_info)
         lines = song_info.split "\n"
-#p 'lines='; pp lines
         raise unless 3 == lines.length
         time = (lines.at 0).split ' '
         raise unless 2 == time.length
         @minute, @second = time.map{|e| e.to_i}
         @artist, @title = (1..2).map{|i| (lines.at i).strip}
-#print '@artist='; pp @artist
-#print '@minute='; pp @minute
-#print '@second='; pp @second
-#print '@title='; pp @title
       end
 
       def xml_output
@@ -90,9 +75,6 @@ module ::QplaylistPrerecord
       end
 
       def <=>(other)
-#print 'other='; pp other
-#print 'other.minute='; pp other.minute
-#print 'other.second='; pp other.second
         @minute * 60 + @second <=> other.minute * 60 + other.second
       end
 
