@@ -11,7 +11,6 @@ module ::QplaylistPrerecord
   module Impure
     class Run
       def self.run
-        filename_in = 'input.txt'
         a = nil # Predefine for block.
         ::File.open filename_in, 'r' do |f|
           a = f.readlines
@@ -24,19 +23,34 @@ module ::QplaylistPrerecord
           songs_unsorted.push(Song.new info)
         end
         songs = songs_unsorted.sort
-        time_start = ::Time.new 2018, 5, 12, 7, 0
         songs.each do |song|
           time_running = ::Time.now
           time_song = time_start + song.minute * 60 + song.second
           if time_song > time_running
             delay = time_song - time_running
             ::Kernel.sleep delay
-            filename_out = 'Z:\NowPlaying.XML'
             ::File.open filename_out, 'w' do |f|
               f.print song.xml_output
             end
           end
         end
+      end
+
+      private
+
+      def filename_in
+        'input.txt'
+      end
+
+      def filename_out
+#       'Z:\NowPlaying.XML'
+        'NowPlaying.XML'
+      end
+
+      def time_start
+# Varies, by the show:
+#       ::Time.new 2018, 5, 12, 7, 0
+        ::Time.new 2018, 5, 11, 23, 37
       end
     end
 
