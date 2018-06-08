@@ -50,8 +50,11 @@ module ::QplaylistPrerecord
 
       def self.time_start
 # Varies, by the show:
-        ::Time.new 2018, 5, 12, 7, 0
+#       ::Time.new 2018, 5, 12, 7, 0
+#       ::Time.new 2018, 5, 12, 7, 3
 #       ::Time.new 2018, 5, 11, 23, 47
+        ::Time.new 2018, 6, 9, 7, 0
+#       ::Time.new 2018, 6, 8, 15, 10
       end
     end
 
