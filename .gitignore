@@ -1,4 +1,6 @@
 /var/**
 /schedules/**
 
+*.xlsx
+
 !/var/**/*.rb

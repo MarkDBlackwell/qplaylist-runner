@@ -6,6 +6,9 @@ mdb April 22, 2018 - created
 =end
 
 =begin
+
+BREAKS
+
 Regarding breaks (underwriting, etc.):
 
 1. All are 1 minute, exactly.
@@ -30,7 +33,23 @@ That program should be the runner.
 
 This will prevent the song from overwriting the airshow name (or segment name) in the playlist.
 
-The main Qplaylist program should pick up, from NowPlaying.XML, code 'SPL' (which stands for 'special') and the cart number (short for 'tape cartridge'), and then start the runner.
+STARTING
+
+The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: MUS, PRO, PRS, SPL, UWR, etc.
+
+Code 'MUS' stands for Music: our ordinary songs.
+
+These should be blacklisted (from Qplaylist):
+
+1. Code 'PRO' stands for 'House Promotional Spot'.
+
+2. Code 'UWR' stands for 'Underwriting Announcement'.
+
+Code 'PRS' stands for 'Public Radio Satellite'. One such that we play is the World Cafe program; we should ignore PRS.
+
+If the code is 'SPL' (which stands for 'special'), then the main Qplaylist program should pick up the cart number (short for 'tape cartridge'), and then start the runner.
+
+CART NUMBER
 
 The cart numbers are a list. They cover the airshow's N segments, and never vary.
 
