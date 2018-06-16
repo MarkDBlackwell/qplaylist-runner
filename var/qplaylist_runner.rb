@@ -35,9 +35,7 @@ This will prevent the song from overwriting the airshow name (or segment name) i
 
 STARTING
 
-The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: MUS, PRO, PRS, SPL, UWR, etc.
-
-Code 'MUS' stands for Music: our ordinary songs.
+The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: LIN, MUS, PRO, PRS, SPL, UWR, etc.
 
 These should be blacklisted (from Qplaylist):
 
@@ -45,9 +43,35 @@ These should be blacklisted (from Qplaylist):
 
 2. Code 'UWR' stands for 'Underwriting Announcement'.
 
-Code 'PRS' stands for 'Public Radio Satellite'. One such that we play is the World Cafe program; we should ignore PRS.
+Code 'MUS' stands for Music: our ordinary songs.
 
-If the code is 'SPL' (which stands for 'special'), then the main Qplaylist program should pick up the cart number (short for 'tape cartridge'), and then start the runner.
+Code 'PRS' stands for 'Public Radio Satellite'. One of these that we play is the World Cafe program; we should ignore PRS.
+
+Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cart number (short for 'tape cartridge'), and then start the runner.
+
+LEGAL ID
+
+Code 'LIN' stands for Liner.
+
+When the liner has a certain cart number, then it is the Legal ID.
+
+In that case, any 'SPL' special program, currently playing, is then immediately killed by WideOrbit. I have to know this, and stop the runner, too.
+
+This means that:
+
+1. When starting the runner, each time, I will append its process ID to a file; and
+
+2. Whenever I see the Legal ID, I will:
+
+a. Attempt to kill all the processes with these process IDs; and
+
+b. Clear the file.
+
+I should look for the Legal ID:
+
+1. Within the main Qplaylist program. There, I will start the qplaylist-runner-daemon; and
+
+2. Within the qplaylist-runner-daemon. There, I will kill the processes.
 
 CART NUMBER
 
