@@ -5,6 +5,48 @@ Author: Mark D. Blackwell (google me)
 mdb April 22, 2018 - created
 =end
 
+=begin
+Regarding breaks (underwriting, etc.):
+
+1. All are 1 minute, exactly.
+
+1. A break happens before each segment, always (including the first).
+
+However, neither the input and edit program, nor the runner program, need know about these breaks, because:
+
+1. WideOrbit starts each segment after its preceding break is done.
+
+As an exception:
+
+1. Some DJs (e.g., Matt Galler) embed breaks in their airshow segments.
+
+Therefore, when supplying their song start times, those particular DJs must allow for these embedded breaks.
+
+I.e., those particular DJs must increment their song start times (if not already), by the total duration of all preceding breaks.
+
+For all segments, some program must ensure that no song starts within the first 20 seconds.
+
+That program should be the runner.
+
+This will prevent the song from overwriting the airshow name (or segment name) in the playlist.
+
+The main Qplaylist program should pick up, from NowPlaying.XML, code 'SPL' (which stands for 'special') and the cart number (short for 'tape cartridge'), and then start the runner.
+
+The cart numbers are a list. They cover the airshow's N segments, and never vary.
+
+Some airshows regularly run twice. Those airshows have two lists of cart numbers (which differ).
+
+For N runs, there will be N differing lists.
+
+A list of songs (artist, title, and start time) will be created in a file (a 'song-list file').
+
+Each differing segment will have a separate song-list file.
+
+The runner will read another file (a 'correspondence file'), which contains the correspondences between each cart number, and the filename of that song-list file.
+
+The main Qplaylist program will pass the cart number to the runner.
+=end
+
 require 'pp'
 
 module ::QplaylistPrerecord
@@ -49,55 +91,15 @@ module ::QplaylistPrerecord
       end
 
       def self.time_start
-=begin
-Notes:
-Regarding breaks (underwriting, etc.):
-
-1. All are 1 minute, exactly.
-
-1. A break happens before each segment, always (including the first).
-
-However, neither the input and edit program, nor the runner program, need know about these break, because:
-
-1. WideOrbit starts each segment after its preceding break is done.
-
-As an exception:
-
-1. Some DJs (e.g., Matt Galler) embed breaks in their airshow segments.
-
-Therefore, when supplying their song start times, they must allow for these embedded breaks.
-
-I.e., they must increment their song start times by the total duration of all preceding breaks.
-
-For all segments, some program must ensure that no song starts within the first 20 seconds.
-
-That program should be the runner.
-
-This will prevent the song from overwriting the airshow name (or segment name) in the playlist.
-
-The main Qplaylist program should pick up, from NowPlaying.XML, code 'SPL' (which stands for 'special') and the cart number (short for 'tape cartridge'), and then start the runner.
-
-The cart numbers are a list. They cover the airshow's N segments, and never vary.
-
-Those airshows, which regularly run twice, have two lists of cart numbers (which differ).
-
-For N runs, there will be N differing lists.
-
-A list of songs (artist, title, and start time) will be created in a file (a 'song-list file').
-
-Each differing segment will have a separate song-list file.
-
-The runner will read another file (a 'correspondence file'), which contains the correspondences between each cart number, and the filename of that song-list file.
-
-The main Qplaylist program will pass the cart number to the runner.
-=end
-
 # Varies, by the airshow:
 #       ::Time.new 2018, 5, 12, 7, 3   # Lisa Mathews
 #       ::Time.new 2018, 6, 9, 7, 1, 0   # Lisa Mathews part 1 inexact
 #       ::Time.new 2018, 6, 9, 7, 1, 52   # Lisa Mathews part 2
 #       ::Time.new 2018, 6, 9, 7, 3, 42   # Lisa Mathews part 3
-        ::Time.new 2018, 6, 9, 7, 4, 43   # Lisa Mathews part 4
+#       ::Time.new 2018, 6, 9, 7, 4, 43   # Lisa Mathews part 4
+#       ::Time.new 2018, 6, 16, 7, 0   # Lisa Mathews all parts
+#       ::Time.new 2018, 6, 16, 7, 2, 35   # Lisa Mathews all parts
+        ::Time.new 2018, 6, 16, 7, 3, 33   # Lisa Mathews all parts
       end
     end
 
