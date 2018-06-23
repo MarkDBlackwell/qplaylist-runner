@@ -1,6 +1,8 @@
+/etc/schedules/**
 /var/**
-/schedules/**
 
 *.xlsx
 
 !/var/**/*.rb
+
+*-copy*

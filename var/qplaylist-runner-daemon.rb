@@ -5,98 +5,15 @@ Author: Mark D. Blackwell (google me)
 mdb April 22, 2018 - created
 =end
 
-=begin
-
-BREAKS
-
-Regarding breaks (underwriting, etc.):
-
-1. All are 1 minute, exactly.
-
-1. A break happens before each segment, always (including the first).
-
-However, neither the input and edit program, nor the runner program, need know about these breaks, because:
-
-1. WideOrbit starts each segment after its preceding break is done.
-
-As an exception:
-
-1. Some DJs (e.g., Matt Galler) embed breaks in their airshow segments.
-
-Therefore, when supplying their song start times, those particular DJs must allow for these embedded breaks.
-
-I.e., those particular DJs must increment their song start times (if not already), by the total duration of all preceding breaks.
-
-For all segments, some program must ensure that no song starts within the first 20 seconds.
-
-That program should be the runner.
-
-This will prevent the song from overwriting the airshow name (or segment name) in the playlist.
-
-STARTING
-
-The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: LIN, MUS, PRO, PRS, SPL, UWR, etc.
-
-These should be blacklisted (from Qplaylist):
-
-1. Code 'PRO' stands for 'House Promotional Spot'.
-
-2. Code 'UWR' stands for 'Underwriting Announcement'.
-
-Code 'MUS' stands for Music: our ordinary songs.
-
-Code 'PRS' stands for 'Public Radio Satellite'. One of these that we play is the World Cafe program; we should ignore PRS.
-
-Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cart number (short for 'tape cartridge'), and then start the runner.
-
-LEGAL ID
-
-Code 'LIN' stands for Liner.
-
-When the liner has a certain cart number, then it is the Legal ID.
-
-In that case, any 'SPL' special program, currently playing, is then immediately killed by WideOrbit. I have to know this, and stop the runner, too.
-
-This means that:
-
-1. When starting the runner, each time, I will append its process ID to a file; and
-
-2. Whenever I see the Legal ID, I will:
-
-a. Attempt to kill all the processes with these process IDs; and
-
-b. Clear the file.
-
-I should look for the Legal ID:
-
-1. Within the main Qplaylist program. There, I will start the qplaylist-runner-daemon; and
-
-2. Within the qplaylist-runner-daemon. There, I will kill the processes.
-
-CART NUMBER
-
-The cart numbers are a list. They cover the airshow's N segments, and never vary.
-
-Some airshows regularly run twice. Those airshows have two lists of cart numbers (which differ).
-
-For N runs, there will be N differing lists.
-
-A list of songs (artist, title, and start time) will be created in a file (a 'song-list file').
-
-Each differing segment will have a separate song-list file.
-
-The runner will read another file (a 'correspondence file'), which contains the correspondences between each cart number, and the filename of that song-list file.
-
-The main Qplaylist program will pass the cart number to the runner.
-=end
-
 require 'pp'
+require 'xmlsimple'
 
 module ::QplaylistPrerecord
   module Impure
     class Run
 
       def self.run
+        log_we_started
         a = nil # Predefine for block.
         ::File.open filename_in, 'r' do |f|
           a = f.readlines
@@ -124,8 +41,54 @@ module ::QplaylistPrerecord
 
       private
 
+      def self.log_we_started
+        dir = ::File.dirname __FILE__
+        basename = 'log.txt'
+        filename = ::File.join dir, basename
+
+        message = "qplaylist-runner-daemon started"
+        time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
+
+        ::File.open filename, 'a' do |f|
+          f.print "#{time} #{message}\n"
+        end
+      end
+
+      def self.cart_number
+        @@cart_number ||= relevant_hash['CutId'].first.strip
+      end
+
+      def self.relevant_hash
+        @@relevant_hash ||= xml_tree['Events'].first['SS32Event'].first
+      end
+
+      def self.xml_tree
+# See http://xml-simple.rubyforge.org/
+        @@xml_tree ||= XmlSimple.xml_in filename_now_playing_in, { KeyAttr: 'name' }
+#puts @@xml_tree
+#print @@xml_tree.to_yaml
+#       @@xml_tree
+      end
+
       def self.filename_in
-        'input.txt'
+        basename = case cart_number
+        when '0242'
+          'young-at-heart-sat-2018-06-23-1.txt'
+        when '0243'
+          'young-at-heart-sat-2018-06-23-2.txt'
+        when '0244'
+          'young-at-heart-sat-2018-06-23-3.txt'
+        when '0021'
+          'young-at-heart-sat-2018-06-23-4.txt'
+        else
+          'input.txt'
+        end
+        ::File.join __dir__, basename
+      end
+
+      def self.filename_now_playing_in
+        'Z:\NowPlaying.XML'
+#       'NowPlaying-in.XML'
       end
 
       def self.filename_out
@@ -142,7 +105,8 @@ module ::QplaylistPrerecord
 #       ::Time.new 2018, 6, 9, 7, 4, 43   # Lisa Mathews part 4
 #       ::Time.new 2018, 6, 16, 7, 0   # Lisa Mathews all parts
 #       ::Time.new 2018, 6, 16, 7, 2, 35   # Lisa Mathews all parts
-        ::Time.new 2018, 6, 16, 7, 3, 33   # Lisa Mathews all parts
+#       ::Time.new 2018, 6, 16, 7, 3, 33   # Lisa Mathews all parts
+        @@time_start ||= ::Time.now
       end
     end
 
@@ -195,7 +159,7 @@ module ::QplaylistPrerecord
 <Events>
 <SS32Event pos='0' valid='true'>
 
-<CatId>MUS</CatId>
+<CatId>QPL</CatId>
 <CutId>00PB</CutId>
 <Type>SONG</Type>
 <SecondsRemaining>  </SecondsRemaining>
