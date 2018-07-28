@@ -5,6 +5,7 @@ Author: Mark D. Blackwell (google me)
 mdb April 22, 2018 - created
 =end
 
+require_relative 'song'
 require 'pp'
 require 'xmlsimple'
 
@@ -42,43 +43,12 @@ module ::QplaylistPrerecord
 
       private
 
-      def self.log_we_started
-        dir = ::File.dirname __FILE__
-        basename = 'log.txt'
-        filename = ::File.join dir, basename
-
-        message = "qplaylist-runner-daemon started"
-        time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
-
-        ::File.open filename, 'a' do |f|
-          f.print "#{time} #{message}\n"
-        end
-      end
-
       def self.cart_number
         @@cart_number ||= relevant_hash['CutId'].first.strip
       end
 
       def self.default_basename
         'input.txt'
-      end
-
-      def self.recreate_empty_default_file
-        filename = ::File.join __dir__, default_basename
-        ::File.open(filename, 'w'){}
-        nil
-      end
-
-      def self.relevant_hash
-        @@relevant_hash ||= xml_tree['Events'].first['SS32Event'].first
-      end
-
-      def self.xml_tree
-# See http://xml-simple.rubyforge.org/
-        @@xml_tree ||= XmlSimple.xml_in filename_now_playing_in, { KeyAttr: 'name' }
-#puts @@xml_tree
-#print @@xml_tree.to_yaml
-#       @@xml_tree
       end
 
       def self.filename_in
@@ -107,8 +77,39 @@ module ::QplaylistPrerecord
 #       'NowPlaying.XML'
       end
 
+      def self.log_we_started
+        dir = ::File.dirname __FILE__
+        basename = 'log.txt'
+        filename = ::File.join dir, basename
+
+        message = "qplaylist-runner-daemon started"
+        time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
+
+        ::File.open filename, 'a' do |f|
+          f.print "#{time} #{message}\n"
+        end
+      end
+
+      def self.recreate_empty_default_file
+        filename = ::File.join __dir__, default_basename
+        ::File.open(filename, 'w'){}
+        nil
+      end
+
+      def self.relevant_hash
+        @@relevant_hash ||= xml_tree['Events'].first['SS32Event'].first
+      end
+
       def self.time_start
         @@time_start ||= ::Time.now
+      end
+
+      def self.xml_tree
+# See http://xml-simple.rubyforge.org/
+        @@xml_tree ||= XmlSimple.xml_in filename_now_playing_in, { KeyAttr: 'name' }
+#puts @@xml_tree
+#print @@xml_tree.to_yaml
+#       @@xml_tree
       end
     end
 
@@ -135,6 +136,10 @@ module ::QplaylistPrerecord
         @artist, @title = (1..2).map{|i| (lines.at i).strip}
       end
 
+      def <=>(other)
+        @minute * 60 + @second <=> other.minute * 60 + other.second
+      end
+
       def xml_output
         [
             string_one,
@@ -144,10 +149,6 @@ module ::QplaylistPrerecord
             string_three,
             "\n"
             ].join ''
-      end
-
-      def <=>(other)
-        @minute * 60 + @second <=> other.minute * 60 + other.second
       end
 
       private
@@ -169,13 +170,6 @@ module ::QplaylistPrerecord
 HERE_STRING_ONE
       end
 
-      def string_two
-        <<HERE_STRING_TWO.chomp
-]]></Title>
-<Artist><![CDATA[
-HERE_STRING_TWO
-      end
-
       def string_three
         <<HERE_STRING_THREE.chomp
 ]]></Artist>
@@ -187,6 +181,13 @@ HERE_STRING_TWO
 </Events>
 </NowPlaying>
 HERE_STRING_THREE
+      end
+
+      def string_two
+        <<HERE_STRING_TWO.chomp
+]]></Title>
+<Artist><![CDATA[
+HERE_STRING_TWO
       end
     end
   end
