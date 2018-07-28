@@ -32,9 +32,9 @@ module ::QplaylistPrerecord
           if time_song > time_running
             delay = time_song - time_running
             ::Kernel.sleep delay
-            ::File.open filename_out, 'w' do |f|
-              f.print song.xml_output
-            end
+          end
+          ::File.open filename_out, 'w' do |f|
+            f.print song.xml_output
           end
         end
       end
@@ -73,13 +73,13 @@ module ::QplaylistPrerecord
       def self.filename_in
         basename = case cart_number
         when '0242'
-          'young-at-heart-sat-2018-06-23-1.txt'
+          'young-at-heart-sat-1.txt'
         when '0243'
-          'young-at-heart-sat-2018-06-23-2.txt'
+          'young-at-heart-sat-2.txt'
         when '0244'
-          'young-at-heart-sat-2018-06-23-3.txt'
+          'young-at-heart-sat-3.txt'
         when '0021'
-          'young-at-heart-sat-2018-06-23-4.txt'
+          'young-at-heart-sat-4.txt'
         else
           'input.txt'
         end
@@ -97,15 +97,6 @@ module ::QplaylistPrerecord
       end
 
       def self.time_start
-# Varies, by the airshow:
-#       ::Time.new 2018, 5, 12, 7, 3   # Lisa Mathews
-#       ::Time.new 2018, 6, 9, 7, 1, 0   # Lisa Mathews part 1 inexact
-#       ::Time.new 2018, 6, 9, 7, 1, 52   # Lisa Mathews part 2
-#       ::Time.new 2018, 6, 9, 7, 3, 42   # Lisa Mathews part 3
-#       ::Time.new 2018, 6, 9, 7, 4, 43   # Lisa Mathews part 4
-#       ::Time.new 2018, 6, 16, 7, 0   # Lisa Mathews all parts
-#       ::Time.new 2018, 6, 16, 7, 2, 35   # Lisa Mathews all parts
-#       ::Time.new 2018, 6, 16, 7, 3, 33   # Lisa Mathews all parts
         @@time_start ||= ::Time.now
       end
     end

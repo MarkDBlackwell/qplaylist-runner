@@ -19,6 +19,8 @@ Therefore, when supplying their song start times, those particular DJs must allo
 I.e., those particular DJs must increment their song start times (if not already), by the total duration of all preceding breaks.
 
 For all segments, some program must ensure that no song starts within the first 20 seconds.
+--This is no longer true. Now, the program is started for each cart, as indicated by the contents of the XML file.
+So, the first song can start at 0:00. The program immediately will rewrite the XML file, and QPlaylist will see it, on its next iteration.
 
 That program should be the runner.
 
