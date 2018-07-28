@@ -14,6 +14,7 @@ module ::QplaylistPrerecord
 
       def self.run
         log_we_started
+        recreate_empty_default_file
         a = nil # Predefine for block.
         ::File.open filename_in, 'r' do |f|
           a = f.readlines
@@ -58,6 +59,16 @@ module ::QplaylistPrerecord
         @@cart_number ||= relevant_hash['CutId'].first.strip
       end
 
+      def self.default_basename
+        'input.txt'
+      end
+
+      def self.recreate_empty_default_file
+        filename = ::File.join __dir__, default_basename
+        ::File.open(filename, 'w'){}
+        nil
+      end
+
       def self.relevant_hash
         @@relevant_hash ||= xml_tree['Events'].first['SS32Event'].first
       end
@@ -81,7 +92,7 @@ module ::QplaylistPrerecord
         when '0021'
           'young-at-heart-sat-4.txt'
         else
-          'input.txt'
+          default_basename
         end
         ::File.join __dir__, basename
       end
