@@ -1,12 +1,6 @@
-=begin
-dir = ::File.dirname __FILE__
-basename = 'log.txt'
-filename = ::File.join dir, basename
+# coding: utf-8
 
-message = "qplaylist-runner-daemon-killer started"
-time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
+# This script (qplaylist-runner-daemon-killer.rb) is the name by which,
+# for the time being, QPlaylist starts the following program:
 
-::File.open filename, 'a' do |f|
-  f.print "#{time} #{message}\n"
-end
-=end
+require_relative 'qplaylist-runner-killer'
