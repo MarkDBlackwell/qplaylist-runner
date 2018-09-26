@@ -5,8 +5,8 @@ Author: Mark D. Blackwell (google me)
 mdb April 22, 2018 - created
 =end
 
-require_relative 'song'
 require 'pp'
+require 'song'
 require 'xmlsimple'
 
 module ::QplaylistRunner
