@@ -10,7 +10,7 @@ require 'pp'
 require 'xmlsimple'
 
 module ::QplaylistRunner
-  class Run
+  class Segment
 
     def self.run
       log_we_started
@@ -112,5 +112,3 @@ module ::QplaylistRunner
     end
   end
 end
-
-::QplaylistRunner::Run.run
