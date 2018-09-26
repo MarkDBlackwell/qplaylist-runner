@@ -8,13 +8,14 @@ mdb April 22, 2018 - created
 require 'pp'
 require 'song'
 require 'xmlsimple'
+require 'helper'
 
 module ::QplaylistRunner
   class Segment
 
     def self.run
       message = "qplaylist-runner-daemon started"
-      log_we_started message
+      Helper.log_write message
       recreate_empty_default_file
       a = nil # Predefine for block.
       ::File.open filename_in, 'r' do |f|
@@ -75,18 +76,6 @@ module ::QplaylistRunner
     def self.filename_out
       'Z:\NowPlaying.XML'
 #     'NowPlaying.XML'
-    end
-
-    def self.log_we_started(message)
-      dir = ::File.dirname __FILE__
-      basename = 'log.txt'
-      filename = ::File.join dir, basename
-
-      time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
-
-      ::File.open filename, 'a' do |f|
-        f.print "#{time} #{message}\n"
-      end
     end
 
     def self.recreate_empty_default_file
