@@ -13,7 +13,8 @@ module ::QplaylistRunner
   class Segment
 
     def self.run
-      log_we_started
+      message = "qplaylist-runner-daemon started"
+      log_we_started message
       recreate_empty_default_file
       a = nil # Predefine for block.
       ::File.open filename_in, 'r' do |f|
@@ -76,12 +77,11 @@ module ::QplaylistRunner
 #     'NowPlaying.XML'
     end
 
-    def self.log_we_started
+    def self.log_we_started(message)
       dir = ::File.dirname __FILE__
       basename = 'log.txt'
       filename = ::File.join dir, basename
 
-      message = "qplaylist-runner-daemon started"
       time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
 
       ::File.open filename, 'a' do |f|
