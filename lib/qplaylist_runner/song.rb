@@ -6,48 +6,48 @@ mdb July 28, 2018 - created
 =end
 
 module ::QplaylistRunner
-    class Song
+  class Song
 
 # Keep before attr_reader.
-      def self.names
-        %i[
-            artist
-            minute
-            second
-            title
-            ]
-      end
+    def self.names
+      %i[
+          artist
+          minute
+          second
+          title
+          ]
+    end
 
-      attr_reader(*names)
+    attr_reader(*names)
 
-      def initialize(song_info)
-        lines = song_info.split "\n"
-        raise unless 3 == lines.length
-        time = (lines.at 0).split ' '
-        raise unless 2 == time.length
-        @minute, @second = time.map{|e| e.to_i}
-        @artist, @title = (1..2).map{|i| (lines.at i).strip}
-      end
+    def initialize(song_info)
+      lines = song_info.split "\n"
+      raise unless 3 == lines.length
+      time = (lines.at 0).split ' '
+      raise unless 2 == time.length
+      @minute, @second = time.map{|e| e.to_i}
+      @artist, @title = (1..2).map{|i| (lines.at i).strip}
+    end
 
-      def <=>(other)
-        @minute * 60 + @second <=> other.minute * 60 + other.second
-      end
+    def <=>(other)
+      @minute * 60 + @second <=> other.minute * 60 + other.second
+    end
 
-      def xml_output
-        [
-            string_one,
-            @title,
-            string_two,
-            @artist,
-            string_three,
-            "\n"
-            ].join ''
-      end
+    def xml_output
+      [
+          string_one,
+          @title,
+          string_two,
+          @artist,
+          string_three,
+          "\n"
+          ].join ''
+    end
 
-      private
+    private
 
-      def string_one
-        <<HERE_STRING_ONE.chomp
+    def string_one
+      <<HERE_STRING_ONE.chomp
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <?xml-stylesheet type='text/xsl' href='NowPlaying.xsl'?>
 <NowPlaying>
@@ -61,10 +61,10 @@ module ::QplaylistRunner
 <SecondsRemaining>  </SecondsRemaining>
 <Title><![CDATA[
 HERE_STRING_ONE
-      end
+    end
 
-      def string_three
-        <<HERE_STRING_THREE.chomp
+    def string_three
+      <<HERE_STRING_THREE.chomp
 ]]></Artist>
 <Intro>00</Intro>
 <Len>04:57</Len>
@@ -74,13 +74,13 @@ HERE_STRING_ONE
 </Events>
 </NowPlaying>
 HERE_STRING_THREE
-      end
+    end
 
-      def string_two
-        <<HERE_STRING_TWO.chomp
+    def string_two
+      <<HERE_STRING_TWO.chomp
 ]]></Title>
 <Artist><![CDATA[
 HERE_STRING_TWO
-      end
     end
+  end
 end
