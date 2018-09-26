@@ -9,8 +9,7 @@ require_relative 'song'
 require 'pp'
 require 'xmlsimple'
 
-module ::QplaylistPrerecord
-  module Impure
+module ::QplaylistRunner
     class Run
 
       def self.run
@@ -112,7 +111,6 @@ module ::QplaylistPrerecord
 #       @@xml_tree
       end
     end
-  end
 end
 
-::QplaylistPrerecord::Impure::Run.run
+::QplaylistRunner::Run.run

@@ -5,8 +5,7 @@ Author: Mark D. Blackwell (google me)
 mdb July 28, 2018 - created
 =end
 
-module ::QplaylistPrerecord
-  module Impure
+module ::QplaylistRunner
     class Song
 
 # Keep before attr_reader.
@@ -84,5 +83,4 @@ HERE_STRING_THREE
 HERE_STRING_TWO
       end
     end
-  end
 end
