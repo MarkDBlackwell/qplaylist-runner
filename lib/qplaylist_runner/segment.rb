@@ -17,7 +17,7 @@ module ::QplaylistRunner
     def self.run
       message = "qplaylist-runner-daemon started"
       Helper.log_write message
-      default_file_recreate_empty
+      file_default_recreate_empty
       a = nil # Predefine for block.
       ::File.open filename_in, 'r' do |f|
         a = f.readlines
@@ -41,6 +41,7 @@ module ::QplaylistRunner
           f.print song.xml_output
         end
       end
+      nil
     end
 
     private
@@ -50,10 +51,10 @@ module ::QplaylistRunner
     end
 
     def self.cart_number
-      @@cart_number ||= hash_relevant['CutId'].first.strip
+      @@cart_number_value ||= hash_relevant['CutId'].first.strip
     end
 
-    def self.default_file_recreate_empty
+    def self.file_default_recreate_empty
       filename = ::File.join Helper.directory_var, basename_default
       MyFile.file_recreate_empty filename
       nil
@@ -76,19 +77,16 @@ module ::QplaylistRunner
     end
 
     def self.hash_relevant
-      @@hash_relevant ||= xml_tree['Events'].first['SS32Event'].first
+      @@hash_relevant_value ||= xml_tree['Events'].first['SS32Event'].first
     end
 
     def self.time_start
-      @@time_start ||= ::Time.now
+      @@time_start_value ||= ::Time.now
     end
 
     def self.xml_tree
 # See http://xml-simple.rubyforge.org/
-      @@xml_tree ||= XmlSimple.xml_in MyFile.filename_now_playing_in, { KeyAttr: 'name' }
-#puts @@xml_tree
-#print @@xml_tree.to_yaml
-#     @@xml_tree
+      @@xml_tree_value ||= XmlSimple.xml_in MyFile.filename_now_playing_in, { KeyAttr: 'name' }
     end
   end
 end
