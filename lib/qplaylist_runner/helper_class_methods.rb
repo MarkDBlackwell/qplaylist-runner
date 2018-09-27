@@ -8,31 +8,27 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
+require 'my_file'
+
 module ::QplaylistRunner
   module Helper
     module ClassMethods
 
       def log_write(message)
         time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
-        basename = 'log.txt'
-        filename = ::File.join directory_var, basename
-        ::File.open filename, 'a' do |f|
+        ::File.open MyFile.filename_log, 'a' do |f|
           f.print "#{time} #{message}\n"
         end
       end
 
+      def whitespace_compress(s)
+        s.strip.gsub whitespace_compress_regexp, ' '
+      end
+
       private
 
-      def directory_script_this
-        ::Kernel.__dir__
-      end
-
-      def directory_var
-        ::File.join project_root, 'var'
-      end
-
-      def project_root
-         @project_root_value ||= ::File.realpath ::File.join(*%w[..]*2), directory_script_this
+      def whitespace_compress_regexp
+         @whitespace_compress_regexp_value ||= ::Regexp.new '\s++'
       end
     end
   end

@@ -5,10 +5,11 @@ Author: Mark D. Blackwell (google me)
 mdb April 22, 2018 - created
 =end
 
+require 'helper'
+require 'my_file'
 require 'pp'
 require 'song'
 require 'xmlsimple'
-require 'helper'
 
 module ::QplaylistRunner
   class Segment
@@ -16,7 +17,7 @@ module ::QplaylistRunner
     def self.run
       message = "qplaylist-runner-daemon started"
       Helper.log_write message
-      recreate_empty_default_file
+      default_file_recreate_empty
       a = nil # Predefine for block.
       ::File.open filename_in, 'r' do |f|
         a = f.readlines
@@ -36,7 +37,7 @@ module ::QplaylistRunner
           delay = time_song - time_running
           ::Kernel.sleep delay
         end
-        ::File.open filename_out, 'w' do |f|
+        ::File.open MyFile.filename_out, 'w' do |f|
           f.print song.xml_output
         end
       end
@@ -44,12 +45,18 @@ module ::QplaylistRunner
 
     private
 
-    def self.cart_number
-      @@cart_number ||= relevant_hash['CutId'].first.strip
+    def self.basename_default
+      'input.txt'
     end
 
-    def self.default_basename
-      'input.txt'
+    def self.cart_number
+      @@cart_number ||= hash_relevant['CutId'].first.strip
+    end
+
+    def self.default_file_recreate_empty
+      filename = ::File.join Helper.directory_var, basename_default
+      MyFile.file_recreate_empty filename
+      nil
     end
 
     def self.filename_in
@@ -63,29 +70,13 @@ module ::QplaylistRunner
       when '0021'
         'young-at-heart-sat-4.txt'
       else
-        default_basename
+        basename_default
       end
       ::File.join __dir__, basename
     end
 
-    def self.filename_now_playing_in
-      'Z:\NowPlaying.XML'
-#     'NowPlaying-in.XML'
-    end
-
-    def self.filename_out
-      'Z:\NowPlaying.XML'
-#     'NowPlaying.XML'
-    end
-
-    def self.recreate_empty_default_file
-      filename = ::File.join __dir__, default_basename
-      ::File.open(filename, 'w'){}
-      nil
-    end
-
-    def self.relevant_hash
-      @@relevant_hash ||= xml_tree['Events'].first['SS32Event'].first
+    def self.hash_relevant
+      @@hash_relevant ||= xml_tree['Events'].first['SS32Event'].first
     end
 
     def self.time_start
@@ -94,7 +85,7 @@ module ::QplaylistRunner
 
     def self.xml_tree
 # See http://xml-simple.rubyforge.org/
-      @@xml_tree ||= XmlSimple.xml_in filename_now_playing_in, { KeyAttr: 'name' }
+      @@xml_tree ||= XmlSimple.xml_in MyFile.filename_now_playing_in, { KeyAttr: 'name' }
 #puts @@xml_tree
 #print @@xml_tree.to_yaml
 #     @@xml_tree

@@ -8,9 +8,10 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
-dirname_file_current = ::Kernel.__dir__
-lib = dirname_file_current
-package = 'qplaylist_runner'
-branch = ::File.join lib, package
-real = ::File.realpath branch
-$LOAD_PATH.unshift real unless $LOAD_PATH.include? real
+require 'my_file_class_methods'
+
+module ::QplaylistRunner
+  module MyFile
+    extend ClassMethods
+  end
+end
