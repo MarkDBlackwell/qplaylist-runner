@@ -6,10 +6,10 @@ mdb April 22, 2018 - created
 =end
 
 require 'helper'
+require 'invoker'
 require 'my_file'
 require 'pp'
 require 'song'
-require 'xmlsimple'
 
 module ::QplaylistRunner
   class Segment
@@ -32,7 +32,7 @@ module ::QplaylistRunner
       songs = songs_unsorted.sort
       songs.each do |song|
         time_running = ::Time.now
-        time_song = time_start + song.minute * 60 + song.second
+        time_song = Invoker.time_start + song.minute * 60 + song.second
         if time_song > time_running
           delay = time_song - time_running
           ::Kernel.sleep delay
@@ -50,10 +50,6 @@ module ::QplaylistRunner
       'input.txt'
     end
 
-    def self.cart_number
-      @@cart_number_value ||= hash_relevant['CutId'].first.strip
-    end
-
     def self.file_default_recreate_empty
       filename = ::File.join Helper.directory_var, basename_default
       MyFile.file_recreate_empty filename
@@ -61,7 +57,7 @@ module ::QplaylistRunner
     end
 
     def self.filename_in
-      basename = case cart_number
+      basename = case Invoker.cart_number
       when '0242'
         'young-at-heart-sat-1.txt'
       when '0243'
@@ -74,19 +70,6 @@ module ::QplaylistRunner
         basename_default
       end
       ::File.join __dir__, basename
-    end
-
-    def self.hash_relevant
-      @@hash_relevant_value ||= xml_tree['Events'].first['SS32Event'].first
-    end
-
-    def self.time_start
-      @@time_start_value ||= ::Time.now
-    end
-
-    def self.xml_tree
-# See http://xml-simple.rubyforge.org/
-      @@xml_tree_value ||= XmlSimple.xml_in MyFile.filename_now_playing_in, { KeyAttr: 'name' }
     end
   end
 end
