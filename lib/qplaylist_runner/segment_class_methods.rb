@@ -36,13 +36,13 @@ module ::QplaylistRunner
       def filename_in
         basename = case Invoker.cart_number
         when '0242'
-          'young-at-heart-sat-1.txt'
+          'young-at-heart-1.txt'
         when '0243'
-          'young-at-heart-sat-2.txt'
+          'young-at-heart-2.txt'
         when '0244'
-          'young-at-heart-sat-3.txt'
+          'young-at-heart-3.txt'
         when '0021'
-          'young-at-heart-sat-4.txt'
+          'young-at-heart-4.txt'
         else
           basename_default
         end
@@ -88,7 +88,7 @@ module ::QplaylistRunner
       end
 
       def write(song)
-        ::File.open MyFile.filename_out, 'w' do |f|
+        ::File.open MyFile.filename_now_playing_out, 'w' do |f|
           f.print song.xml_output
         end
         nil
