@@ -28,11 +28,6 @@ module ::QplaylistRunner
         ::File.join project_root, 'var'
       end
 
-      def file_recreate_empty(filename)
-        ::File.open(filename, 'w'){}
-        nil
-      end
-
       def filename_log
         basename = 'log.txt'
         ::File.join directory_var, basename

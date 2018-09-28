@@ -19,17 +19,10 @@ module ::QplaylistRunner
     module ClassMethods
 
       def run
-        set_up
+        log_start
         songs.sort.each do |song|
-          time_running = ::Time.now
-          time_song = Invoker.time_start + song.second + song.minute * 60
-          if time_song > time_running
-            delay = time_song - time_running
-            ::Kernel.sleep delay
-          end
-          ::File.open MyFile.filename_out, 'w' do |f|
-            f.print song.xml_output
-          end
+          sleep song
+          write song
         end
         nil
       end
@@ -38,12 +31,6 @@ module ::QplaylistRunner
 
       def basename_default
         'nul:'
-      end
-
-      def file_default_recreate_empty
-        filename = ::File.join Helper.directory_var, basename_default
-        MyFile.file_recreate_empty filename
-        nil
       end
 
       def filename_in
@@ -76,18 +63,35 @@ module ::QplaylistRunner
         3
       end
 
-      def set_up
-        message = "qplaylist-runner-daemon started"
-        Helper.log_write message
-        file_default_recreate_empty
+      def log_start
+        Helper.log_write log_start_message
+        nil
+      end
+
+      def log_start_message
+        'qplaylist-runner-daemon started'
+      end
+
+      def sleep(song)
+        time_song_start = Invoker.time_start + song.second + song.minute * 60
+        delay = time_song_start - ::Time.now
+        return if delay <= 0.0
+        ::Kernel.sleep delay
         nil
       end
 
       def songs
-        lines_containing_song_info.each_slice(3).map do |group|
+        lines_containing_song_info.each_slice(lines_per_song_standard).map do |group|
           info = group.join "\n"
           Song.new info
         end
+      end
+
+      def write(song)
+        ::File.open MyFile.filename_out, 'w' do |f|
+          f.print song.xml_output
+        end
+        nil
       end
     end
   end
