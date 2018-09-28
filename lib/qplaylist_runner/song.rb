@@ -33,7 +33,7 @@ module ::QplaylistRunner
     end
 
     def <=>(other)
-      @minute * 60 + @second <=> other.minute * 60 + other.second
+      @second + @minute * 60 <=> other.second + other.minute * 60
     end
 
     def xml_output

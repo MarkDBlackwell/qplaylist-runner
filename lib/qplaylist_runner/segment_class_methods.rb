@@ -19,24 +19,10 @@ module ::QplaylistRunner
     module ClassMethods
 
       def run
-        message = "qplaylist-runner-daemon started"
-        Helper.log_write message
-        file_default_recreate_empty
-        a = nil # Predefine for block.
-        ::File.open filename_in, 'r' do |f|
-          a = f.readlines
-        end
-        lines = a.map{|e| e.chomp}.reject{|e| e.empty?}
-        raise unless 0 == lines.length % 3
-        songs_unsorted = []
-        lines.each_slice 3 do |group|
-          info = group.join "\n"
-          songs_unsorted.push(Song.new info)
-        end
-        songs = songs_unsorted.sort
-        songs.each do |song|
+        set_up
+        songs.sort.each do |song|
           time_running = ::Time.now
-          time_song = Invoker.time_start + song.minute * 60 + song.second
+          time_song = Invoker.time_start + song.second + song.minute * 60
           if time_song > time_running
             delay = time_song - time_running
             ::Kernel.sleep delay
@@ -51,7 +37,7 @@ module ::QplaylistRunner
       private
 
       def basename_default
-        'input.txt'
+        'nul:'
       end
 
       def file_default_recreate_empty
@@ -74,6 +60,34 @@ module ::QplaylistRunner
           basename_default
         end
         ::File.join __dir__, basename
+      end
+
+      def lines_containing_song_info
+        lines_unfiltered = nil # Predefine for block.
+        ::File.open filename_in, 'r' do |f|
+          lines_unfiltered = f.readlines
+        end
+        result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+        raise unless 0 == result.length % lines_per_song_standard
+        result
+      end
+
+      def lines_per_song_standard
+        3
+      end
+
+      def set_up
+        message = "qplaylist-runner-daemon started"
+        Helper.log_write message
+        file_default_recreate_empty
+        nil
+      end
+
+      def songs
+        lines_containing_song_info.each_slice(3).map do |group|
+          info = group.join "\n"
+          Song.new info
+        end
       end
     end
   end
