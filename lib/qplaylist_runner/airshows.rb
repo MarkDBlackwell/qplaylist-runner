@@ -10,29 +10,17 @@ Copyright (C) 2018 Mark D. Blackwell.
 
 require 'airshow'
 require 'helper'
+require 'my_file'
 
 module ::QplaylistRunner
   module Airshows
-#   include Helper
     extend self
 
     def all
-      lines = ::File.open filename_airshows do |f|
+      lines = ::File.open MyFile.filename_airshows do |f|
         f.readlines.map{|e| Helper.whitespace_compress e}.reject{|e| e.empty? or e.start_with? '#'}
       end
       lines.map{|e| Airshow.new e}.sort
-    end
-
-    private
-
-    def directory_playlist
-# For production, this should change:
-      directory_etc_example
-    end
-
-    def filename_airshows
-      basename = 'cart-numbers-airshows.txt'
-      ::File.join directory_playlist, basename
     end
   end
 end

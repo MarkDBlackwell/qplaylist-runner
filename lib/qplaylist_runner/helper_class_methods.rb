@@ -15,10 +15,10 @@ module ::QplaylistRunner
     module ClassMethods
 
       def log_write(message)
-        time = ::Time.now.strftime '%Y-%m-%d %H:%M:%S'
         ::File.open MyFile.filename_log, 'a' do |f|
-          f.print "#{time} #{message}\n"
+          f.print "#{time_log_string} #{message}\n"
         end
+        nil
       end
 
       def whitespace_compress(s)
@@ -26,6 +26,11 @@ module ::QplaylistRunner
       end
 
       private
+
+      def time_log_string
+        time_log = ::Time.now
+        time_log.strftime '%Y-%m-%d %H:%M:%S'
+      end
 
       def whitespace_compress_regexp
          @whitespace_compress_regexp_value ||= ::Regexp.new '\s++'
