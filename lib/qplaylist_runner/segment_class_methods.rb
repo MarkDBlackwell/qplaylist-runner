@@ -8,6 +8,7 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
+require 'airshows'
 require 'helper'
 require 'invoker'
 require 'my_file'

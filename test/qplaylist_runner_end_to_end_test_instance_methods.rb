@@ -15,7 +15,9 @@ module ::QplaylistRunner
     module InstanceMethods
 
       def test_end_to_end
+        input_copy
         stub_things do
+          load_and_run
 #         flunk
         end
       end
@@ -26,8 +28,24 @@ module ::QplaylistRunner
         ::File.join directory_test, 'fixture'
       end
 
+      def directory_script_this
+        ::Kernel.__dir__
+      end
+
       def directory_test
         ::File.join MyFile.project_root, 'test'
+      end
+
+      def input_copy
+        basename = 'young-at-heart-2.txt'
+        source      = ::File.join directory_fixture,  basename
+        destination = ::File.join stub_directory_var, basename
+        ::IO.copy_stream source, destination
+      end
+
+      def load_and_run
+        filename = ::File.join '..', 'qplaylist-runner-daemon.rb'
+        require_relative filename
       end
 
       def stub_directory_var
@@ -39,7 +57,7 @@ module ::QplaylistRunner
       end
 
       def stub_filename_now_playing_in
-        ::File.join directory_fixture, 'NowPlaying-in.XML.txt'
+        ::File.join directory_fixture, 'NowPlaying.XML-cut-id-0243-in.txt'
       end
 
       def stub_filename_now_playing_out

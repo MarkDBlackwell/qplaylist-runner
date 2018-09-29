@@ -21,7 +21,8 @@ module ::QplaylistRunner
     end
 
     def lookup(cartridge_number)
-      all.find raise do |airshow|
+      no_airshow_found = ::Kernel.lambda{raise}
+      all.find no_airshow_found do |airshow|
         airshow.cartridge_numbers.include? cartridge_number
       end
     end

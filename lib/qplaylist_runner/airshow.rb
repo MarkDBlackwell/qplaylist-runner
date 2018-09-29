@@ -30,6 +30,10 @@ module ::QplaylistRunner
       nil
     end
 
+    def <=>(other)
+      [@name_show, @cartridge_numbers] <=> [other.name_show, other.cartridge_numbers]
+    end
+
     private
 
     def cartridge_number_length_standard

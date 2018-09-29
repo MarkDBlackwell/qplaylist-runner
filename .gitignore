@@ -1,8 +1,9 @@
 /etc/schedules/**
+/test/var/**
 /var/**
 
 *.xlsx
 
-!/var/**/*.rb
-
 *-copy*
+
+!.gitkeep
