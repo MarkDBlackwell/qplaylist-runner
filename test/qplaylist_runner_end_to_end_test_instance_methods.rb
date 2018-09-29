@@ -39,7 +39,7 @@ module ::QplaylistRunner
       end
 
       def stub_filename_now_playing_in
-        ::File.join directory_fixture, 'NowPlaying-in.XML'
+        ::File.join directory_fixture, 'NowPlaying-in.XML.txt'
       end
 
       def stub_filename_now_playing_out
