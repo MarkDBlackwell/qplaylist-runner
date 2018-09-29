@@ -12,39 +12,41 @@ module ::QplaylistRunner
   module MyFile
     module ClassMethods
 
+      def basename_airshows
+        'cart-numbers-airshows.txt'
+      end
+
+      def basename_log
+        'log.txt'
+      end
+
       def basename_now_playing
-## Established by the Wideorbit company:
+## Set by the company, Wideorbit:
         'NowPlaying.XML'
       end
 
+      def basename_var
+        'var'
+      end
+
       def directory_var
-        ::File.join project_root, 'var'
+        ::File.join project_root, basename_var
       end
 
       def filename_airshows
-        basename = 'cart-numbers-airshows.txt'
-#       ::File.join 'Z:', 'Qplaylist', basename
-        ::File.join directory_var, basename
+        ::File.join 'Z:', 'Qplaylist', basename_airshows
       end
 
       def filename_log
-        basename = 'log.txt'
-        ::File.join directory_var, basename
+        ::File.join directory_var, basename_log
       end
 
       def filename_now_playing_in
-#       ::File.join 'Z:', basename_now_playing
-        ::File.join directory_var, 'NowPlaying-in.XML'
+        ::File.join 'Z:', basename_now_playing
       end
 
       def filename_now_playing_out
-        basename = basename_now_playing
-#       ::File.join 'Z:', basename
-        ::File.join directory_var, basename
-      end
-
-      def filename_playlist_in(basename)
-        ::File.join directory_var, basename
+        ::File.join 'Z:', basename_now_playing
       end
 
       def project_root

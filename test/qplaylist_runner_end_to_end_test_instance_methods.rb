@@ -31,37 +31,27 @@ module ::QplaylistRunner
       end
 
       def stub_directory_var
-        ::File.join directory_test, 'var'
+        ::File.join directory_test, MyFile.basename_var
       end
 
       def stub_filename_airshows
-        basename = 'cart-numbers-airshows.txt'
-        ::File.join directory_fixture, basename
-      end
-
-      def stub_filename_log
-        basename = 'log.txt'
-        ::File.join stub_directory_var, basename
+        ::File.join directory_fixture, MyFile.basename_airshows
       end
 
       def stub_filename_now_playing_in
-        basename = 'NowPlaying-in.XML'
-        ::File.join directory_fixture, basename
+        ::File.join directory_fixture, 'NowPlaying-in.XML'
       end
 
       def stub_filename_now_playing_out
-        basename = MyFile.basename_now_playing
-        ::File.join stub_directory_var, basename
+        ::File.join stub_directory_var, MyFile.basename_now_playing
       end
 
       def stub_things
-        ::QplaylistRunner::        MyFile.stub :directory_var,            stub_directory_var            do
-          ::QplaylistRunner::      MyFile.stub :filename_airshows,        stub_filename_airshows        do
-            ::QplaylistRunner::    MyFile.stub :filename_log,             stub_filename_log             do
-              ::QplaylistRunner::  MyFile.stub :filename_now_playing_in,  stub_filename_now_playing_in  do
-                ::QplaylistRunner::MyFile.stub :filename_now_playing_out, stub_filename_now_playing_out do
-                  yield
-                end
+        ::QplaylistRunner::      MyFile.stub :directory_var,            stub_directory_var            do
+          ::QplaylistRunner::    MyFile.stub :filename_airshows,        stub_filename_airshows        do
+            ::QplaylistRunner::  MyFile.stub :filename_now_playing_in,  stub_filename_now_playing_in  do
+              ::QplaylistRunner::MyFile.stub :filename_now_playing_out, stub_filename_now_playing_out do
+                yield
               end
             end
           end

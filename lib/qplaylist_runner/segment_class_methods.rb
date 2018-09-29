@@ -33,7 +33,7 @@ module ::QplaylistRunner
         'nul:'
       end
 
-      def filename_in
+      def basename_playlist_in
         cartridge_number = Invoker.cart_number
         airshow = Airshows.lookup cartridge_number
         index = airshow.cartridge_numbers.find_index{|e| e == cartridge_number}
@@ -42,11 +42,11 @@ module ::QplaylistRunner
         else
           "#{airshow.name_show}-#{index.succ}.txt"
         end
-        MyFile.filename_playlist_in basename
       end
 
       def lines_containing_song_info
-        lines_unfiltered = ::File.open filename_in, 'r' do |f|
+        filename = ::File.join MyFile.directory_var, basename_playlist_in
+        lines_unfiltered = ::File.open filename, 'r' do |f|
           f.readlines
         end
         result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
