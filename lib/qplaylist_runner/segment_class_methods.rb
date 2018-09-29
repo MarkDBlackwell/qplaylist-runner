@@ -29,30 +29,25 @@ module ::QplaylistRunner
 
       private
 
-      def basename_default
+      def basename_null_input
         'nul:'
       end
 
       def filename_in
-        basename = case Invoker.cart_number
-        when '0242'
-          'young-at-heart-1.txt'
-        when '0243'
-          'young-at-heart-2.txt'
-        when '0244'
-          'young-at-heart-3.txt'
-        when '0021'
-          'young-at-heart-4.txt'
+        cartridge_number = Invoker.cart_number
+        airshow = Airshows.lookup cartridge_number
+        index = airshow.cartridge_numbers.find_index{|e| e == cartridge_number}
+        basename = unless index
+          basename_null_input
         else
-          basename_default
+          "#{airshow.name_show}-#{index.succ}.txt"
         end
-        ::File.join __dir__, basename
+        MyFile.filename_playlist_in basename
       end
 
       def lines_containing_song_info
-        lines_unfiltered = nil # Predefine for block.
-        ::File.open filename_in, 'r' do |f|
-          lines_unfiltered = f.readlines
+        lines_unfiltered = ::File.open filename_in, 'r' do |f|
+          f.readlines
         end
         result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
         raise unless 0 == result.length % lines_per_song_standard
@@ -76,8 +71,12 @@ module ::QplaylistRunner
         time_song_start = Invoker.time_start + song.second + song.minute * 60
         delay = time_song_start - ::Time.now
         return if delay <= 0.0
-        ::Kernel.sleep delay
+        sleep_kernel delay
         nil
+      end
+
+      def sleep_kernel(delay)
+        ::Kernel.sleep delay
       end
 
       def songs

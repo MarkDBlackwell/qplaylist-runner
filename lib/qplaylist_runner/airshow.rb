@@ -24,6 +24,7 @@ module ::QplaylistRunner
     def initialize(line)
       tokens =     line.split ' '
       @name_show = tokens.first
+## Don't sort the cartridge numbers.
       @cartridge_numbers = tokens.drop name_show_token_count
       check tokens
       nil
@@ -39,11 +40,11 @@ module ::QplaylistRunner
       @@cartridge_number_regexp_value ||= ::Regexp.new '\A\d++\z', ::Regexp::MULTILINE
     end
 
-    def check(             tokens)
-      ::Kernel.exit unless tokens.length > name_show_token_count
+    def check(     tokens)
+      raise unless tokens.length > name_show_token_count
       @cartridge_numbers.each do |cart|
-        ::Kernel.exit unless cart.length == cartridge_number_length_standard
-        ::Kernel.exit unless cartridge_number_regexp =~ cart
+        raise unless cart.length == cartridge_number_length_standard
+        raise unless cartridge_number_regexp =~ cart
       end
       nil
     end

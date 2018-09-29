@@ -17,10 +17,31 @@ module ::QplaylistRunner
     extend self
 
     def all
-      lines = ::File.open MyFile.filename_airshows do |f|
-        f.readlines.map{|e| Helper.whitespace_compress e}.reject{|e| e.empty? or e.start_with? '#'}
+      @@all_value ||= airshows
+    end
+
+    def lookup(cartridge_number)
+      all.find raise do |airshow|
+        airshow.cartridge_numbers.include? cartridge_number
       end
-      lines.map{|e| Airshow.new e}.sort
+    end
+
+    private
+
+    def airshows
+      lines_unfiltered = ::File.open MyFile.filename_airshows, 'r' do |f|
+        f.readlines
+      end
+      lines = lines_unfiltered.map{|e| Helper.whitespace_compress e}.reject{|e| e.empty? or e.start_with? '#'}
+      result = lines.map{|e| Airshow.new e}.sort
+      check result
+      result
+    end
+
+    def check(airshows)
+      all = airshows.map(&:cartridge_numbers).reduce :+
+      raise unless all.length == all.uniq.length
+      nil
     end
   end
 end
