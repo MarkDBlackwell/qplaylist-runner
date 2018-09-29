@@ -12,7 +12,7 @@ require 'my_file'
 
 module ::QplaylistRunner
   module Helper
-    module ClassMethods
+    module ModuleMethods
 
       def log_write(message)
         ::File.open MyFile.filename_log, 'a' do |f|

@@ -41,11 +41,13 @@ module ::QplaylistRunner
         source      = ::File.join directory_fixture,  basename
         destination = ::File.join stub_directory_var, basename
         ::IO.copy_stream source, destination
+        nil
       end
 
       def load_and_run
         filename = ::File.join '..', 'qplaylist-runner-daemon.rb'
         require_relative filename
+        nil
       end
 
       def stub_directory_var

@@ -8,10 +8,10 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
-require 'invoker_class_methods'
+require 'invoker_module_methods'
 
 module ::QplaylistRunner
   module Invoker
-    extend ClassMethods
+    extend ModuleMethods
   end
 end

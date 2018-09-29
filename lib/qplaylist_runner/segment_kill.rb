@@ -16,6 +16,7 @@ module ::QplaylistRunner
     def self.run
       message = "qplaylist-runner-daemon-killer started"
       Helper.log_write message
+      nil
     end
   end
 end

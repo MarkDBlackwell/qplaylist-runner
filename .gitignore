@@ -2,8 +2,6 @@
 /test/var/**
 /var/**
 
-*.xlsx
-
 *-copy*
 
 !.gitkeep

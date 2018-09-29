@@ -10,7 +10,7 @@ Copyright (C) 2018 Mark D. Blackwell.
 
 module ::QplaylistRunner
   module MyFile
-    module ClassMethods
+    module ModuleMethods
 
       def basename_airshows
         'cart-numbers-airshows.txt'

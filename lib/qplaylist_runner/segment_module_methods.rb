@@ -17,7 +17,7 @@ require 'song'
 
 module ::QplaylistRunner
   module Segment
-    module ClassMethods
+    module ModuleMethods
 
       def run
         log_start
@@ -78,6 +78,7 @@ module ::QplaylistRunner
 
       def sleep_kernel(delay)
         ::Kernel.sleep delay
+        nil
       end
 
       def songs

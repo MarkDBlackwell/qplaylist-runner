@@ -13,7 +13,7 @@ require 'xmlsimple'
 
 module ::QplaylistRunner
   module Invoker
-    module ClassMethods
+    module ModuleMethods
 
       def cart_number
         @@cart_number_value ||= hash_relevant['CutId'].first.strip
