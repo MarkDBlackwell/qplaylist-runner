@@ -2,12 +2,6 @@ BREAKS
 
 Regarding breaks (underwriting, etc.):
 
-1. All are 1 minute, exactly.
-
-1. A break happens before each segment, always (including the first).
-
-However, neither the input and edit program, nor the runner program, need know about these breaks, because:
-
 1. WideOrbit starts each segment after its preceding break is done.
 
 As an exception:
@@ -16,21 +10,16 @@ As an exception:
 
 Therefore, when supplying their song start times, those particular DJs must allow for these embedded breaks.
 
-I.e., those particular DJs must increment their song start times (if not already), by the total duration of all preceding breaks.
+I.e., those particular DJs must increment their song start times (if not already), by the total duration of all breaks preceding in the segment.
 
-For all segments, some program must ensure that no song starts within the first 20 seconds.
---This is no longer true. Now, the program is started for each cart, as indicated by the contents of the XML file.
+The program is started for each tape cartridge ("cart") number, as indicated by the contents of the XML file.
 So, the first song can start at 0:00. The program immediately will rewrite the XML file, and QPlaylist will see it, on its next iteration.
-
-That program should be the runner.
-
-This will prevent the song from overwriting the airshow name (or segment name) in the playlist.
 
 STARTING
 
 The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: LIN, MUS, PRO, PRS, SPL, UWR, etc.
 
-These should be blacklisted (from Qplaylist):
+The following should be blacklisted (from Qplaylist):
 
 1. Code 'PRO' stands for 'House Promotional Spot'.
 
@@ -38,33 +27,31 @@ These should be blacklisted (from Qplaylist):
 
 Code 'MUS' stands for Music: our ordinary songs.
 
-Code 'PRS' stands for 'Public Radio Satellite'. One of these that we play is the World Cafe program; we should ignore PRS.
+Code 'PRS' stands for 'Public Radio Satellite'. One in this category that we play is the World Cafe program; we should ignore PRS.
 
-Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cart number (short for 'tape cartridge'), and then start the runner.
+Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cart number, and then start the runner.
 
 LEGAL ID
 
 Code 'LIN' stands for Liner.
 
-When the liner has a certain cart number, then it is the Legal ID.
+When the liner has a certain cart number, then it is the Legal ID. Some are "hard", and some are "soft".
 
-In that case, any 'SPL' special program, currently playing, is then immediately killed by WideOrbit. I have to know this, and stop the runner, too.
+If it's hard, then any 'SPL' special program, currently playing, is then immediately killed by WideOrbit.
 
-This means that:
+When the next MUS happens, then the main Qplaylist program kills any runner.
+
+If another 'SPL' happens, then it kills any other runners.
+
+To accomplish this:
 
 1. When starting the runner, each time, I will append its process ID to a file; and
 
-2. Whenever I see the Legal ID, I will:
+Whenever I see MUS, I will, and when I start a runner, it will:
 
-a. Attempt to kill all the processes with these process IDs; and
+1. Attempt to kill all the processes with these process IDs; and
 
-b. Clear the file.
-
-I should look for the Legal ID:
-
-1. Within the main Qplaylist program. There, I will start the qplaylist-runner-daemon; and
-
-2. Within the qplaylist-runner-daemon. There, I will kill the processes.
+2. Clear the file.
 
 CART NUMBER
 

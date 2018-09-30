@@ -21,7 +21,7 @@ module ::QplaylistRunner
       end
 
       def basename_now_playing
-## Set by the company, Wideorbit:
+## Set by the company, WideOrbit:
         'NowPlaying.XML'
       end
 
