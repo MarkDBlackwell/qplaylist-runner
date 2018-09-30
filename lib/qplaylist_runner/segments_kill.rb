@@ -8,15 +8,10 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
-require 'helper'
+require 'segments_kill_module_methods'
 
 module ::QplaylistRunner
-  class SegmentKill
-
-    def self.run
-      message = "qplaylist-runner-daemon-killer started"
-      Helper.log_write message
-      nil
-    end
+  module SegmentsKill
+    extend ModuleMethods
   end
 end

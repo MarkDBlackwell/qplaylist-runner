@@ -25,6 +25,10 @@ module ::QplaylistRunner
         'NowPlaying.XML'
       end
 
+      def basename_process_identifiers
+        'process_ids.txt'
+      end
+
       def basename_var
         'var'
       end
@@ -47,6 +51,10 @@ module ::QplaylistRunner
 
       def filename_now_playing_out
         ::File.join 'Z:', basename_now_playing
+      end
+
+      def filename_process_identifiers
+        ::File.join directory_var, basename_process_identifiers
       end
 
       def project_root

@@ -9,6 +9,6 @@ Copyright (C) 2018 Mark D. Blackwell.
 =end
 
 require_relative 'load_path'
-require 'segment_kill'
+require 'segments_kill'
 
-::QplaylistRunner::SegmentKill.run
+::QplaylistRunner::SegmentsKill.run

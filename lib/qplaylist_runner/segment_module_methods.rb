@@ -12,7 +12,7 @@ require 'airshows'
 require 'helper'
 require 'invoker'
 require 'my_file'
-require 'pp'
+require 'segments_kill'
 require 'song'
 
 module ::QplaylistRunner
@@ -21,6 +21,7 @@ module ::QplaylistRunner
 
       def run
         log_start
+        segments_other_kill
         songs.sort.each do |song|
           sleep song
           write song
@@ -45,16 +46,6 @@ module ::QplaylistRunner
         end
       end
 
-      def lines_containing_song_info
-        filename = ::File.join MyFile.directory_var, basename_playlist_in
-        lines_unfiltered = ::File.open filename, 'r' do |f|
-          f.readlines
-        end
-        result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
-        raise unless 0 == result.length % lines_per_song_standard
-        result
-      end
-
       def lines_per_song_standard
         3
       end
@@ -66,6 +57,10 @@ module ::QplaylistRunner
 
       def log_start_message
         'qplaylist-runner-daemon started'
+      end
+
+      def segments_other_kill
+        SegmentsKill.run
       end
 
       def sleep(song)
@@ -81,8 +76,18 @@ module ::QplaylistRunner
         nil
       end
 
+      def song_info_lines
+        filename = ::File.join MyFile.directory_var, basename_playlist_in
+        lines_unfiltered = ::File.open filename, 'r' do |f|
+          f.readlines
+        end
+        result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+        raise unless 0 == result.length % lines_per_song_standard
+        result
+      end
+
       def songs
-        lines_containing_song_info.each_slice(lines_per_song_standard).map do |group|
+        song_info_lines.each_slice(lines_per_song_standard).map do |group|
           info = group.join "\n"
           Song.new info
         end
