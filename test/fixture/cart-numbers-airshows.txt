@@ -1,9 +1,3 @@
-# Airshow Name                 Cartridge Numbers
-# ------------                 -----------------
-  baltimore-hit-parade         0281
-  baltimore-hit-parade-repeat  0261
-  detour                       0387 0388 0389 0390 0391 0392 0393 0394 0395 0396
-  detour-8-segments            0248 0249 0250 0251 0252 0253 0254 0255
-  the-latin-alternative        0258 0259 0260
-  weasels-wild-weekend         0264 0265 0266
-  young-at-heart               0242 0243 0244 0021
+# comment
+#
+  young-at-heart 0242 0243

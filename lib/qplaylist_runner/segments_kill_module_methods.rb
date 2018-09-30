@@ -8,6 +8,7 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
+require 'helper'
 require 'my_file'
 
 module ::QplaylistRunner
@@ -16,21 +17,17 @@ module ::QplaylistRunner
 
       def run
         processes_kill
-        process_ids_file_reset
+        process_identifiers_file_reset
         nil
       end
 
       private
 
-      def process_id_self
-        @@process_id_self_value ||= ::Process.pid
+      def process_identifiers
+        process_identifiers_file_read.map(&:to_i).select{|e| e > 0}.reject{|e| Helper.process_identifier_self == e}
       end
 
-      def process_ids
-        process_ids_file_read.map(&:to_i).select{|e| e > 0}.reject{|e| process_id_self == e}
-      end
-
-      def process_ids_file_read
+      def process_identifiers_file_read
         filename = MyFile.filename_process_identifiers
         mode_handle_file_nonexistence = 'a+'
         ::File.open filename, mode_handle_file_nonexistence do |f|
@@ -39,16 +36,14 @@ module ::QplaylistRunner
         end
       end
 
-      def process_ids_file_reset
+      def process_identifiers_file_reset
         filename = MyFile.filename_process_identifiers
-        ::File.open filename, 'w' do |f|
-          f.print "#{process_id_self}\n"
-        end
+        ::File.open(filename, 'w'){}
         nil
       end
 
       def processes_kill
-        process_ids.each do |pid|
+        process_identifiers.each do |pid|
           begin
             ::Process.kill signal_kill, pid
 # Errno::EPERM means privilege error:

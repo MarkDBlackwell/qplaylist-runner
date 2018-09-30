@@ -21,7 +21,7 @@ module ::QplaylistRunner
 
       def run
         log_start
-        segments_other_kill
+        processes_manage
         songs.sort.each do |song|
           sleep song
           write song
@@ -59,8 +59,18 @@ module ::QplaylistRunner
         'qplaylist-runner-daemon started'
       end
 
-      def segments_other_kill
+      def process_identifiers_file_append
+        filename = MyFile.filename_process_identifiers
+        ::File.open filename, 'a' do |f|
+          f.print "#{Helper.process_identifier_self}\n"
+        end
+        nil
+      end
+
+      def processes_manage
         SegmentsKill.run
+        process_identifiers_file_append
+        nil
       end
 
       def sleep(song)

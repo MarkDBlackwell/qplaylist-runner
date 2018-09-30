@@ -21,6 +21,10 @@ module ::QplaylistRunner
         nil
       end
 
+      def process_identifier_self
+        @@process_identifier_self_value ||= ::Process.pid
+      end
+
       def whitespace_compress(s)
         s.strip.gsub whitespace_compress_regexp, ' '
       end
