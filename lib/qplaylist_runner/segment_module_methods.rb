@@ -39,7 +39,7 @@ module ::QplaylistRunner
         cartridge_number = Invoker.cart_number
         airshow = Airshows.lookup cartridge_number
         index = airshow.cartridge_numbers.find_index{|e| e == cartridge_number}
-        basename = unless index
+        unless index
           basename_null_input
         else
           "#{airshow.name_show}-#{index.succ}.txt"

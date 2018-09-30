@@ -8,7 +8,6 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
-require 'helper'
 require 'my_file'
 
 module ::QplaylistRunner
@@ -16,22 +15,12 @@ module ::QplaylistRunner
     module ModuleMethods
 
       def run
-        log_start
         processes_kill
         process_ids_file_reset
         nil
       end
 
       private
-
-      def log_start
-        Helper.log_write log_start_message
-        nil
-      end
-
-      def log_start_message
-        'qplaylist-runner-daemon-killer started'
-      end
 
       def process_id_self
         @@process_id_self_value ||= ::Process.pid
@@ -67,7 +56,7 @@ module ::QplaylistRunner
           rescue \
               Errno::EPERM,
               Errno::ESRCH,
-              RangeError => exception
+              RangeError
 # Skip any process IDs which give these errors.
           end
         end

@@ -1,22 +1,9 @@
-# Exclude airshows which people don't prerecord (i.e., those which people do, 'live').
-# Exclude airshows which are not 'SPL' (e.g., World Café).
-
-# Use full pathnames for the Airshow song start times file names, e.g.:
-
-# Cart_number  Airshow_file_song_start_times_pathname
-# 0242         C:\Mark\develop\qplaylist-runner\etc\schedules\young-at-heart-2018-06-23-1.txt
-# 0243         C:\Mark\develop\qplaylist-runner\etc\schedules\young-at-heart-2018-06-23-2.txt
-# 0244         C:\Mark\develop\qplaylist-runner\etc\schedules\young-at-heart-2018-06-23-3.txt
-# 0021         C:\Mark\develop\qplaylist-runner\etc\schedules\young-at-heart-2018-06-23-4.txt
-
-# Ideal way:
-# In this system, '-1', '-2', etc. are appended before the final extension, automatically (even if the airshow comprises just a single segment).
-
-# Airshow_songs_filename_template           Cart_numbers
-
-  baltimore-hit-parade-tue-2018-06-26.txt   0261
-  baltimore-hit-parade-tue-2018-06-26.txt   0281
-  detour-sun-2018-06-24.txt                 0248 0249 0250 0251 0252 0253 0254 0255
-  the-latin-alternative-sun-2018-06-24.txt  0258 0259 0260
-  weasel-s-wild-weekend-fri-2018-06-22.txt  0264 0265 0266
-  young-at-heart-sat-2018-06-23.txt         0242 0243 0244 0021
+# Airshow Name                 Cartridge Numbers
+# ------------                 -----------------
+  baltimore-hit-parade         0281
+  baltimore-hit-parade-repeat  0261
+  detour                       0387 0388 0389 0390 0391 0392 0393 0394 0395 0396
+  detour-8-segments            0248 0249 0250 0251 0252 0253 0254 0255
+  the-latin-alternative        0258 0259 0260
+  weasels-wild-weekend         0264 0265 0266
+  young-at-heart               0242 0243 0244 0021
