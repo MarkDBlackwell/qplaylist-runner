@@ -36,7 +36,7 @@ module ::QplaylistRunner
       end
 
       def basename_playlist_in
-        cartridge_number = Invoker.cart_number
+        cartridge_number = Invoker.cartridge_number
         airshow = Airshows.lookup cartridge_number
         index = airshow.cartridge_numbers.find_index{|e| e == cartridge_number}
         unless index
@@ -56,7 +56,7 @@ module ::QplaylistRunner
       end
 
       def log_start_message
-        'qplaylist-runner-daemon started'
+        "qplaylist-runner-daemon started #{Invoker.cartridge_number}"
       end
 
       def process_identifiers_file_append

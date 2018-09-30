@@ -15,8 +15,8 @@ module ::QplaylistRunner
   module Invoker
     module ModuleMethods
 
-      def cart_number
-        @@cart_number_value ||= hash_relevant['CutId'].first.strip
+      def cartridge_number
+        @@cartridge_number_value ||= hash_relevant['CutId'].first.strip
       end
 
       def time_start
