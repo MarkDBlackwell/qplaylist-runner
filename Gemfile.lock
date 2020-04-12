@@ -1,0 +1,18 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.9.0)
+    xml-simple (1.1.2)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  minitest (= 5.9.0)
+  xml-simple (= 1.1.2)
+
+RUBY VERSION
+   ruby 2.2.5p319
+
+BUNDLED WITH
+   1.16.1

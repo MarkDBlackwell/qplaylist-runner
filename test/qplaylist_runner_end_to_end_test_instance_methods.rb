@@ -45,7 +45,7 @@ module ::QplaylistRunner
       end
 
       def load_and_run
-        filename = ::File.join '..', 'qplaylist-runner-daemon.rb'
+        filename = ::File.join '..', 'lib', 'runner.rb'
         require_relative filename
         nil
       end

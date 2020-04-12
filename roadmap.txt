@@ -10,7 +10,9 @@ As an exception:
 
 Therefore, when supplying their song start times, those particular DJs must allow for these embedded breaks.
 
-I.e., those particular DJs must increment their song start times (if not already), by the total duration of all breaks preceding in the segment.
+I.e., those particular DJs must increment their song start times (if not already), by the total duration of all breaks preceding within the segment.
+
+I.e., they must provide the true start time for each song, relative to the start of its segment.
 
 The program is started for each tape cartridge ("cart") number, as indicated by the contents of the XML file.
 So, the first song can start at 0:00. The program immediately will rewrite the XML file, and QPlaylist will see it, on its next iteration.

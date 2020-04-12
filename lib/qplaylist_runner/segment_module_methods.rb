@@ -56,7 +56,7 @@ module ::QplaylistRunner
       end
 
       def log_start_message
-        "qplaylist-runner-daemon started #{Invoker.cartridge_number}"
+        "qplaylist-runner started #{Invoker.cartridge_number}"
       end
 
       def process_identifiers_file_append
