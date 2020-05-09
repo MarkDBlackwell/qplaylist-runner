@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+
+module Verify
+  extend self
+
+  def run
+    directory_files.each do |filename|
+      file_process filename
+    end
+    nil
+  end
+
+  private
+
+  def directory_files
+    @@directory_files ||= ::Dir.glob file_selector
+  end
+
+  def file_options
+    @@file_options ||= {
+        mode: 'r',
+        binmode: true,
+        external_encoding: 'utf-8',
+        internal_encoding: nil, # Nil means don't convert.
+        }
+  end
+
+  def file_process(filename)
+    lines = lines_read filename
+    lines_count_check lines, filename
+    lines_each_check lines, filename
+    nil
+  end
+
+  def file_selector
+    '*.txt'
+  end
+
+  def line_ascii_check(line, filename, line_index)
+    unless line.ascii_only?
+      puts "File '#{filename}': line #{line_index + 1} contains a non-ASCII character:"
+      puts line
+    end
+    nil
+  end
+
+  def lines_count_check(lines_unfiltered, filename)
+    lines = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+    unless 0 == lines.length % lines_per_song_standard
+      puts "File '#{filename}' contains a wrong number of nonempty lines."
+    end
+    nil
+  end
+
+  def lines_each_check(lines, filename)
+    lines.each_with_index do |line, index|
+      line_ascii_check line, filename, index
+    end
+    nil
+  end
+
+  def lines_per_song_standard
+    3
+  end
+
+  def lines_read(filename)
+    ::File.open filename, file_options do |f|
+      f.readlines
+    end
+  end
+end
+
+Verify.run
