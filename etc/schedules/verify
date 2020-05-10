@@ -28,7 +28,7 @@ module Verify
 
   def file_process(filename)
     lines = lines_read filename
-    lines_count_check lines, filename
+    file_structure_check lines, filename
     lines_each_check lines, filename
     nil
   end
@@ -37,20 +37,29 @@ module Verify
     '*.txt'
   end
 
+  def file_structure_check(lines_unfiltered, filename)
+    lines = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+    return unless lines_count_okay? lines, filename
+    lines_timing_check lines, filename
+    nil
+  end
+
   def line_ascii_check(line, filename, line_index)
+    message = "File '#{filename}': line #{line_index + 1} contains a non-ASCII character:"
     unless line.ascii_only?
-      puts "File '#{filename}': line #{line_index + 1} contains a non-ASCII character:"
+      puts message
       puts line
     end
     nil
   end
 
-  def lines_count_check(lines_unfiltered, filename)
-    lines = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
-    unless 0 == lines.length % lines_per_song_standard
-      puts "File '#{filename}' contains a wrong number of nonempty lines."
+  def lines_count_okay?(lines, filename)
+    message = "File '#{filename}' contains a wrong number of nonempty lines."
+    result = 0 == lines.length % lines_per_song_standard
+    unless result
+      puts message
     end
-    nil
+    result
   end
 
   def lines_each_check(lines, filename)
@@ -68,6 +77,38 @@ module Verify
     ::File.open filename, file_options do |f|
       f.readlines
     end
+  end
+
+  def lines_timing_check(lines, filename)
+    lines.each_slice lines_per_song_standard do |line, _, _|
+      message_preamble = "File '#{filename}' contains a line: '#{line}' with"
+      timings = line.split ' '
+      timings_count_check timings, message_preamble
+      timings_each_check timings, message_preamble
+    end
+    nil
+  end
+
+  def minutes_and_seconds
+    2
+  end
+
+  def timings_count_check(timings, message_preamble)
+    timings_length = timings.length
+    message = "#{message_preamble} a wrong number of timings: '#{timings_length}'."
+    length_correct = minutes_and_seconds == timings_length
+    puts message unless length_correct
+    nil
+  end
+
+  def timings_each_check(timings, message_preamble)
+    timings.each do |fragment|
+      message = "#{message_preamble} a bad timing: '#{fragment}'."
+      unless /^[1-9]?[0-9]$/ =~ fragment
+        puts message
+      end
+    end
+    nil
   end
 end
 

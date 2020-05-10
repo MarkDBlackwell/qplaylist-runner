@@ -1,12 +1,11 @@
-0 16
+0 16 8
 Väsen
 No No No
 
-3 50
+a3 50
 Ismaël Lô
-Slides & Polkas: Cuz Teahan's #1/Cuz Teahan's #2/Mairtin
-O'Connor's/The Ballydesmond/Jessica's Polka
+Slides & Polkas: Cuz Teahan's #1/Cuz Teahan's #2/Mairtin O'Connor's/The Ballydesmond/Jessica's Polka
 
-8 39
+08 39z
 Fanfare Ciocărlia
 The River Always Wins
