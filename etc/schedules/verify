@@ -66,7 +66,7 @@ module Verify
 
   def lines_count_okay?(lines, filename)
     message = "File '#{filename}' contains a wrong number of nonempty lines."
-    result = 0 == lines.length % lines_per_song_standard
+    result = 0 == lines.length % lines_per_song
     unless result
       puts message
     end
@@ -81,7 +81,7 @@ module Verify
     nil
   end
 
-  def lines_per_song_standard
+  def lines_per_song
     3
   end
 
@@ -92,11 +92,11 @@ module Verify
   end
 
   def lines_timing_check(lines, filename)
-    lines.each_slice lines_per_song_standard do |line, _, _|
-      message_preamble = "File '#{filename}' contains a line: '#{line}' with"
+    lines.each_slice lines_per_song do |line, _, _|
+      preamble = "File '#{filename}' contains a line: '#{line}' with"
       timings = line.split ' '
-      timings_count_check timings, message_preamble
-      timings_each_check timings, message_preamble
+      timings_count_check timings, preamble
+      timings_each_check timings, preamble
     end
     nil
   end
@@ -113,17 +113,17 @@ module Verify
     @@regex_unprintable ||= ::Regexp::new '[^[:print:]]'
   end
 
-  def timings_count_check(timings, message_preamble)
+  def timings_count_check(timings, preamble)
     timings_length = timings.length
-    message = "#{message_preamble} a wrong number of timings: '#{timings_length}'."
+    message = "#{preamble} a wrong number of timings: '#{timings_length}'."
     length_correct = minutes_and_seconds == timings_length
     puts message unless length_correct
     nil
   end
 
-  def timings_each_check(timings, message_preamble)
+  def timings_each_check(timings, preamble)
     timings.each do |fragment|
-      message = "#{message_preamble} a bad timing: '#{fragment}'."
+      message = "#{preamble} a bad timing: '#{fragment}'."
       unless regex_timing_fragment =~ fragment
         puts message
       end
