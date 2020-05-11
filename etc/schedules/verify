@@ -53,6 +53,17 @@ module Verify
     nil
   end
 
+  def line_printable_check(line, filename, line_index)
+    position = regex_unprintable =~ line.chomp
+    column = position ? position + 1 : nil
+    message = "File '#{filename}': line #{line_index + 1} contains an unprintable character in column #{column}:"
+    if position
+      puts message
+      puts line
+    end
+    nil
+  end
+
   def lines_count_okay?(lines, filename)
     message = "File '#{filename}' contains a wrong number of nonempty lines."
     result = 0 == lines.length % lines_per_song_standard
@@ -65,6 +76,7 @@ module Verify
   def lines_each_check(lines, filename)
     lines.each_with_index do |line, index|
       line_ascii_check line, filename, index
+      line_printable_check line, filename, index
     end
     nil
   end
@@ -93,6 +105,14 @@ module Verify
     2
   end
 
+  def regex_timing_fragment
+    @@regex_timing_fragment ||= ::Regexp::new '^[1-9]?[0-9]$'
+  end
+
+  def regex_unprintable
+    @@regex_unprintable ||= ::Regexp::new '[^[:print:]]'
+  end
+
   def timings_count_check(timings, message_preamble)
     timings_length = timings.length
     message = "#{message_preamble} a wrong number of timings: '#{timings_length}'."
@@ -104,7 +124,7 @@ module Verify
   def timings_each_check(timings, message_preamble)
     timings.each do |fragment|
       message = "#{message_preamble} a bad timing: '#{fragment}'."
-      unless /^[1-9]?[0-9]$/ =~ fragment
+      unless regex_timing_fragment =~ fragment
         puts message
       end
     end
@@ -112,4 +132,4 @@ module Verify
   end
 end
 
-Verify.run
+::Verify.run
