@@ -93,42 +93,24 @@ module Verify
 
   def lines_timing_check(lines, filename)
     lines.each_slice lines_per_song do |line, _, _|
-      preamble = "File '#{filename}' contains a line: '#{line}' with"
-      timings = line.split ' '
-      timings_count_check timings, preamble
-      timings_each_check timings, preamble
-    end
-    nil
-  end
-
-  def minutes_and_seconds
-    2
-  end
-
-  def regex_timing_fragment
-    @@regex_timing_fragment ||= ::Regexp::new '^[1-9]?[0-9]$'
-  end
-
-  def regex_unprintable
-    @@regex_unprintable ||= ::Regexp::new '[^[:print:]]'
-  end
-
-  def timings_count_check(timings, preamble)
-    timings_length = timings.length
-    message = "#{preamble} a wrong number of timings: '#{timings_length}'."
-    length_correct = minutes_and_seconds == timings_length
-    puts message unless length_correct
-    nil
-  end
-
-  def timings_each_check(timings, preamble)
-    timings.each do |fragment|
-      message = "#{preamble} a bad timing: '#{fragment}'."
-      unless regex_timing_fragment =~ fragment
+      message = "File '#{filename}' contains a bad timing line: '#{line}'."
+      timing = line.split(' ').join ' '
+      unless regex_timing =~ timing
         puts message
       end
     end
     nil
+  end
+
+  def regex_timing
+    @@regex_timing ||= begin
+      minutes_or_seconds = '[1-9]?[0-9]'
+      ::Regexp::new "^#{minutes_or_seconds} #{minutes_or_seconds}$"
+    end
+  end
+
+  def regex_unprintable
+    @@regex_unprintable ||= ::Regexp::new '[^[:print:]]'
   end
 end
 
