@@ -5,8 +5,8 @@ module Verify
   extend self
 
   def run
-    directory_files.each do |filename|
-      file_process filename
+    directory_files.each do |name|
+      file_process name
     end
     nil
   end
