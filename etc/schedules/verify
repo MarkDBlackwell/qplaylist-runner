@@ -17,15 +17,6 @@ module Verify
     @@directory_files ||= ::Dir.glob file_selector
   end
 
-  def file_options
-    @@file_options ||= {
-        mode: 'r',
-        binmode: true,
-        external_encoding: 'utf-8',
-        internal_encoding: nil, # Nil means don't convert.
-        }
-  end
-
   def file_process(filename)
     lines = lines_read filename
     file_structure_check lines, filename
@@ -86,7 +77,8 @@ module Verify
   end
 
   def lines_read(filename)
-    ::File.open filename, file_options do |f|
+# Nil means don't convert:
+    ::File.open filename, 'rb', external_encoding: 'utf-8', internal_encoding: nil do |f|
       f.readlines
     end
   end
