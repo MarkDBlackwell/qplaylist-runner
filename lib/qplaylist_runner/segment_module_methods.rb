@@ -21,6 +21,7 @@ module ::QplaylistRunner
 
       def run
         log_start
+        keep_open
         processes_manage
         songs.sort.each do |song|
           sleep song
@@ -46,6 +47,12 @@ module ::QplaylistRunner
         end
       end
 
+      def keep_open
+        puts 'QPlaylist runner.'
+        puts 'Do Not Close!'
+       nil
+      end
+
       def lines_per_song_standard
         3
       end
@@ -56,7 +63,7 @@ module ::QplaylistRunner
       end
 
       def log_start_message
-        "qplaylist-runner-daemon started #{Invoker.cartridge_number}"
+        "qplaylist-runner started #{Invoker.cartridge_number}"
       end
 
       def process_identifiers_file_append

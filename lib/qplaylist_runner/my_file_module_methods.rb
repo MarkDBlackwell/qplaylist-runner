@@ -21,8 +21,7 @@ module ::QplaylistRunner
       end
 
       def basename_now_playing
-## Set by the company, WideOrbit:
-        'NowPlaying.XML'
+        ENV['now-playing-basename']
       end
 
       def basename_process_identifiers
@@ -38,19 +37,27 @@ module ::QplaylistRunner
       end
 
       def filename_airshows
-        ::File.join 'Z:', 'Qplaylist', basename_airshows
+# Convert Windows backslashes to forward slashes:
+        left = ::File.absolute_path ENV['airshows-location']
+        ::File.join left, basename_airshows
       end
 
       def filename_log
         ::File.join directory_var, basename_log
       end
 
+      def filename_now_playing
+# Convert Windows backslashes to forward slashes:
+        left = ::File.absolute_path ENV['WideOrbit-file-location']
+        ::File.join left, basename_now_playing
+      end
+
       def filename_now_playing_in
-        ::File.join 'Z:', basename_now_playing
+        filename_now_playing
       end
 
       def filename_now_playing_out
-        ::File.join 'Z:', basename_now_playing
+        filename_now_playing
       end
 
       def filename_process_identifiers
