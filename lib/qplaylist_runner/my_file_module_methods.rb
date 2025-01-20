@@ -21,7 +21,7 @@ module ::QplaylistRunner
       end
 
       def basename_now_playing
-        ENV['now-playing-basename']
+        ENV['now_playing_basename']
       end
 
       def basename_process_identifiers
@@ -38,7 +38,7 @@ module ::QplaylistRunner
 
       def filename_airshows
 # Convert Windows backslashes to forward slashes:
-        left = ::File.absolute_path ENV['airshows-location']
+        left = ::File.absolute_path ENV['airshows_location']
         ::File.join left, basename_airshows
       end
 
@@ -48,7 +48,7 @@ module ::QplaylistRunner
 
       def filename_now_playing
 # Convert Windows backslashes to forward slashes:
-        left = ::File.absolute_path ENV['WideOrbit-file-location']
+        left = ::File.absolute_path ENV['WideOrbit_file_location']
         ::File.join left, basename_now_playing
       end
 
