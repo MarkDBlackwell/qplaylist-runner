@@ -16,12 +16,12 @@
 
 export airshows_location=test/fixture
 
-export now_playing_basename=NowPlaying.XML
+export now_playing_basename=NowPlaying.xml
 
 export now_playing_meta_basename=MetaNowPlaying.xml
 
 export WideOrbit_file_location=test/var
 
-# ruby -I . -e "::Dir.glob('test/**/*_test.rb') {|f| require f}"
-
 ruby -I . test/qplaylist_runner_end_to_end_test.rb 0243
+
+# ruby -I . -e "::Dir.glob('test/**/*_test.rb') {|f| require f}"

@@ -17,7 +17,7 @@ So, the first song can start at 0:00. The program immediately will rewrite the X
 
 STARTING
 
-The main Qplaylist program should pick up, from NowPlaying.XML, a field called 'CatId', which contains one of these codes: LIN, MUS, PRO, PRS, SPL, UWR, etc.
+The main Qplaylist program should pick up, from NowPlaying.xml, a field called 'CatId', which contains one of these codes: LIN, MUS, PRO, PRS, SPL, UWR, etc.
 
 The following should be blacklisted (from Qplaylist):
 
@@ -29,13 +29,13 @@ Code 'MUS' stands for Music: our ordinary songs.
 
 Code 'PRS' stands for 'Public Radio Satellite'. One in this category that we play is the World Cafe program; we should ignore PRS.
 
-Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cart number, and then start the runner.
+Code 'SPL' stands for Special. In that case, the main Qplaylist program should pick up the cartridge number, and then start the runner.
 
 LEGAL ID
 
 Code 'LIN' stands for Liner.
 
-When the liner has a certain cart number, then it is the Legal ID. Some are "hard", and some are "soft".
+When the liner has a certain cartridge number, then it is the Legal ID. Some are "hard", and some are "soft".
 
 If it's hard, then any 'SPL' special program, currently playing, is then immediately killed by WideOrbit.
 
@@ -53,11 +53,11 @@ Whenever I see MUS, I will, and when I start a runner, it will:
 
 2. Clear the file.
 
-CART NUMBER
+CART(RIDGE) NUMBER
 
-The cart numbers are a list. They cover the airshow's N segments, and never vary.
+The cartridge ("cart") numbers are a list. They cover the airshow's N segments, and never vary.
 
-Some airshows regularly run twice. Those airshows have two lists of cart numbers (which differ).
+Some airshows regularly run twice. Those airshows have two lists of cartridge numbers (which differ).
 
 For N runs, there will be N differing lists.
 
@@ -65,6 +65,6 @@ A list of songs (artist, title, and start time) will be created in a file (a 'so
 
 Each differing segment will have a separate song-list file.
 
-The runner will read another file (a 'correspondence file'), which contains the correspondences between each cart number, and the filename of that song-list file.
+The runner will read another file (a 'correspondence file'), which contains the correspondences between each cartridge number, and the filename of that song-list file.
 
-The main Qplaylist program will pass the cart number to the runner.
+The main Qplaylist program will pass the cartridge number to the runner.

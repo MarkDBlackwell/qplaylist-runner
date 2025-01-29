@@ -19,8 +19,8 @@ module ::QplaylistRunner
         stub_things do
           reset_files
           load_and_run
-          assert ::FileUtils.identical?('test/fixture/NowPlaying.XML', 'test/var/NowPlaying.XML'), 'NowPlaying.XML'
-          assert ::FileUtils.identical?('test/fixture/MetaNowPlaying.xml', 'test/var/MetaNowPlaying.xml'), 'MetaNowPlaying.xml'
+          assert ::FileUtils.identical?('test/fixture/NowPlaying.xml',     'test/var/NowPlaying.xml'),     "\nNowPlaying.xml"
+          assert ::FileUtils.identical?('test/fixture/MetaNowPlaying.xml', 'test/var/MetaNowPlaying.xml'), "\nMetaNowPlaying.xml"
         end
       end
 
@@ -55,7 +55,7 @@ module ::QplaylistRunner
       end
 
       def stub_filename_now_playing
-        'test/var/NowPlaying.XML'
+        'test/var/NowPlaying.xml'
       end
 
       def stub_filename_now_playing_meta
