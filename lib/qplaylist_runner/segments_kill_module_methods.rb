@@ -38,7 +38,7 @@ module ::QplaylistRunner
 
       def process_identifiers_file_reset
         filename = MyFile.filename_process_identifiers
-        ::File.open(filename, 'w'){}
+        ::File.open(filename, 'w') {}
         nil
       end
 

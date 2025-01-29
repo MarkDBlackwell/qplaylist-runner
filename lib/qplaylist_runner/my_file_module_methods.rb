@@ -12,26 +12,8 @@ module ::QplaylistRunner
   module MyFile
     module ModuleMethods
 
-      def basename_now_playing
-        @@basename_now_playing ||= ENV['now_playing_basename']
-      end
-
-      def basename_now_playing_meta
-        @@basename_now_playing_meta ||= ENV['now_playing_meta_basename']
-      end
-
-# Keep for test:
       def directory_songs
         @@directory_songs ||= directory_var
-      end
-
-      def directory_var
-        @@directory_var ||= ::File.join project_root, 'var'
-      end
-
-      def directory_wideorbit
-# Convert Windows backslashes to forward slashes:
-        @@directory_wideorbit ||= ::File.absolute_path ENV['WideOrbit_file_location']
       end
 
       def filename_airshows
@@ -58,10 +40,6 @@ module ::QplaylistRunner
         @@filename_process_identifiers ||= ::File.join directory_var, basename_process_identifiers
       end
 
-      def project_root
-         @@project_root ||= ::File.realpath ::File.join('..', '..'), ::Kernel.__dir__
-      end
-
       private
 
       def basename_airshows
@@ -72,8 +50,29 @@ module ::QplaylistRunner
         'log.txt'
       end
 
+      def basename_now_playing
+        @@basename_now_playing ||= ENV['now_playing_basename']
+      end
+
+      def basename_now_playing_meta
+        @@basename_now_playing_meta ||= ENV['now_playing_meta_basename']
+      end
+
       def basename_process_identifiers
         'process_ids.txt'
+      end
+
+      def directory_var
+        @@directory_var ||= ::File.join project_root, 'var'
+      end
+
+      def directory_wideorbit
+# Convert Windows backslashes to forward slashes:
+        @@directory_wideorbit ||= ::File.absolute_path ENV['WideOrbit_file_location']
+      end
+
+      def project_root
+         @@project_root ||= ::File.realpath ::File.join('..', '..'), ::Kernel.__dir__
       end
     end
   end
