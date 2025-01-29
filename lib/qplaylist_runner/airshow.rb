@@ -37,11 +37,11 @@ module ::QplaylistRunner
     private
 
     def cartridge_number_length_standard
-      @@cartridge_number_length_standard_value ||= '0123'.length
+      @@cartridge_number_length_standard ||= '0123'.length
     end
 
     def cartridge_number_regexp
-      @@cartridge_number_regexp_value ||= ::Regexp.new '\A\d++\z', ::Regexp::MULTILINE
+      @@cartridge_number_regexp ||= ::Regexp.new '\A\d++\z', ::Regexp::MULTILINE
     end
 
     def check(     tokens)

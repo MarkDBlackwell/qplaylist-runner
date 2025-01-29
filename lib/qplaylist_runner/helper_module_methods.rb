@@ -22,7 +22,7 @@ module ::QplaylistRunner
       end
 
       def process_identifier_self
-        @@process_identifier_self_value ||= ::Process.pid
+        @@process_identifier_self ||= ::Process.pid
       end
 
       def whitespace_compress(s)
@@ -37,7 +37,7 @@ module ::QplaylistRunner
       end
 
       def whitespace_compress_regexp
-         @whitespace_compress_regexp_value ||= ::Regexp.new '\s++'
+         @@whitespace_compress_regexp ||= ::Regexp.new '\s++'
       end
     end
   end

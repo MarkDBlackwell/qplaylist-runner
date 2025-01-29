@@ -17,7 +17,7 @@ module ::QplaylistRunner
     extend self
 
     def all
-      @@all_value ||= airshows
+      @@all ||= airshows
     end
 
     def lookup(cartridge_number)
