@@ -94,7 +94,7 @@ module ::QplaylistRunner
       end
 
       def song_info_lines
-        filename = ::File.join MyFile.directory_var, basename_playlist_in
+        filename = ::File.join MyFile.directory_songs, basename_playlist_in
         lines_unfiltered = ::File.open filename, 'r' do |f|
           f.readlines
         end
@@ -111,7 +111,7 @@ module ::QplaylistRunner
       end
 
       def write(song)
-        ::File.open MyFile.filename_now_playing_out, 'w' do |f|
+        ::File.open MyFile.filename_now_playing, 'w' do |f|
           f.print song.xml_output
         end
         nil

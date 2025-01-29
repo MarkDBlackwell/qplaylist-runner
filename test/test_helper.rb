@@ -11,20 +11,25 @@ Copyright (C) 2018 Mark D. Blackwell.
 require_relative 'test_helper_minitest'
 require 'pp'
 
-package = 'qplaylist_runner'
 
-dirname_file_current = ::Kernel.__dir__
-project_root = ::File.join dirname_file_current, '..'
+def test_helper_supplement_load_path
+  dirname_file_current = ::Kernel.__dir__
+  project_root = ::File.join dirname_file_current, '..'
 
-lib  = ::File.join project_root, 'lib'
-test = ::File.join project_root, 'test'
+  test = ::File.join project_root, 'test'
+  lib  = ::File.join project_root, 'lib'
+  branches = [test, lib]
 
-branches = [test, lib]
-branches.push ::File.join lib, package
-branches.each do |branch|
-  real = ::File.realpath branch
-  $LOAD_PATH.unshift real unless $LOAD_PATH.include? real
+  package = 'qplaylist_runner'
+  branches.push ::File.join lib, package
+
+  branches.each do |branch|
+    real = ::File.realpath branch
+    $LOAD_PATH.unshift real unless $LOAD_PATH.include? real
+  end
 end
+
+test_helper_supplement_load_path
 
 module ::QplaylistRunner
   class QplaylistRunnerTest < ::Minitest::Test

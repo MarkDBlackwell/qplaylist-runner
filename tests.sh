@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright (C) 2018 Mark D. Blackwell.
 #   All rights reserved.
@@ -10,6 +10,18 @@
 #   "How to run all tests with minitest?: answer", stackoverflow:
 #   https://stackoverflow.com/a/31660885
 
+# Run this script from the project directory.
+
 #--------------
 
-ruby -I . -e "::Dir.glob('test/**/*_test.rb') {|f| require f}"
+export airshows_location=test/fixture
+
+export now_playing_basename=NowPlaying.XML
+
+export now_playing_meta_basename=MetaNowPlaying.xml
+
+export WideOrbit_file_location=test/var
+
+# ruby -I . -e "::Dir.glob('test/**/*_test.rb') {|f| require f}"
+
+ruby -I . test/qplaylist_runner_end_to_end_test.rb 0243

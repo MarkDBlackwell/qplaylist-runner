@@ -1,7 +1,7 @@
-0 10
-Harry Nilsson
-One
-
-0 20
+0 2
 R.E.M.
 Everybody Hurts
+
+0 5
+Harry Nilsson
+One More
