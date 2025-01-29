@@ -9,29 +9,17 @@ Copyright (C) 2018 Mark D. Blackwell.
 =end
 
 require 'my_file'
-require 'xmlsimple'
 
 module ::QplaylistRunner
   module Invoker
     module ModuleMethods
 
       def cartridge_number
-        @@cartridge_number_value ||= hash_relevant['CutId'].first.strip
+        @@cartridge_number ||= ARGV[0]
       end
 
       def time_start
-        @@time_start_value ||= ::Time.now
-      end
-
-      private
-
-      def hash_relevant
-        @@hash_relevant_value ||= xml_tree['Events'].first['SS32Event'].first
-      end
-
-      def xml_tree
-# See http://xml-simple.rubyforge.org/
-        @@xml_tree_value ||= XmlSimple.xml_in MyFile.filename_now_playing_in, { KeyAttr: 'name' }
+        @@time_start ||= ::Time.now
       end
     end
   end
