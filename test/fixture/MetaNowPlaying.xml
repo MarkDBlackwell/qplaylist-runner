@@ -1,1 +1,18 @@
-hello
+<nowplaying>
+<sched_time>00000000</sched_time>
+<air_time>000000</air_time>
+<stack_pos></stack_pos>
+<title>One More</title>
+<artist>Harry Nilsson</artist>
+<trivia></trivia>
+<category>MUS</category>
+<cart>0000</cart>
+<intro>0</intro>
+<end></end>
+<station>WTMD-FM</station>
+<duration>180000</duration>
+<media_type>SONG</media_type>
+<milliseconds_left></milliseconds_left>
+<Album></Album>
+<Label></Label>
+</nowplaying>

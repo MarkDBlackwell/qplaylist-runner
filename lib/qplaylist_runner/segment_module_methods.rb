@@ -112,7 +112,11 @@ module ::QplaylistRunner
 
       def write(song)
         ::File.open MyFile.filename_now_playing, 'w' do |f|
-          f.print song.xml_output
+          f.print song.xml_output_now_playing
+        end
+
+        ::File.open MyFile.filename_now_playing_meta, 'w' do |f|
+          f.print song.xml_output_now_playing_meta
         end
         nil
       end

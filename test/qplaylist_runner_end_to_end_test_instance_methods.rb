@@ -22,12 +22,23 @@ module ::QplaylistRunner
           assert ! ::IO.read('test/var/process_ids.txt').chomp.empty?,                                     "\nprocess_ids.txt"
           assert   ::IO.read('test/var/log.txt').        end_with?("qplaylist-runner started 0243\n"),     "\nlog.txt"
           assert ::FileUtils.identical?('test/fixture/NowPlaying.xml',     'test/var/NowPlaying.xml'),     "\nNowPlaying.xml"
-          assert ::FileUtils.identical?('test/fixture/MetaNowPlaying.xml', 'test/var/MetaNowPlaying.xml'), "\nMetaNowPlaying.xml"
+
+          fixture = air_time_strip ::IO.read('test/fixture/MetaNowPlaying.xml')
+          var     = air_time_strip ::IO.read('test/var/MetaNowPlaying.xml')
+          assert_equal fixture, var, "\nMetaNowPlaying.xml"
         end
         nil
       end
 
       private
+
+      def air_time_regexp
+        @@air_time_regexp ||= ::Regexp.new '<air_time>[0-9]{4,}</air_time>'
+      end
+
+      def air_time_strip(s)
+        s.sub air_time_regexp, ''
+      end
 
       def load_and_run
 # Relative to the directory containing this Ruby script file:
