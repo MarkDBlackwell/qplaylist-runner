@@ -1,0 +1,111 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+
+# Maybe try this.
+
+module Verify
+  extend self
+
+  def run
+    directory_files.each do |name|
+      file_process name
+    end
+    nil
+  end
+
+  private
+
+  def directory_files
+    @@directory_files ||= ::Dir.glob file_selector
+  end
+
+  def file_process(filename)
+    lines = lines_read filename
+    file_structure_check lines, filename
+    lines_each_check lines, filename
+    nil
+  end
+
+  def file_selector
+    '*.txt'
+  end
+
+  def file_structure_check(lines_unfiltered, filename)
+    lines = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+    return unless lines_count_okay? lines, filename
+    lines_timing_check lines, filename
+    nil
+  end
+
+  def line_ascii_check(line, filename, line_index)
+    message = "File '#{filename}': line #{line_index + 1} contains a non-ASCII character:"
+    unless line.ascii_only?
+      puts message
+      puts line
+    end
+    nil
+  end
+
+  def line_printable_check(line, filename, line_index)
+    position = regex_unprintable =~ line.chomp
+    column = position ? position + 1 : nil
+    message = "File '#{filename}': line #{line_index + 1} contains an unprintable character in column #{column}:"
+    if position
+      puts message
+      puts line
+    end
+    nil
+  end
+
+  def lines_count_okay?(lines, filename)
+    message = "File '#{filename}' contains a wrong number of nonempty lines."
+    result = 0 == lines.length % lines_per_song
+    unless result
+      puts message
+    end
+    result
+  end
+
+  def lines_each_check(lines, filename)
+    lines.each_with_index do |line, index|
+      line_ascii_check line, filename, index
+      line_printable_check line, filename, index
+    end
+    nil
+  end
+
+  def lines_per_song
+    3
+  end
+
+  def lines_read(filename)
+# Nil means don't convert:
+    ::File.open filename, 'rb', external_encoding: 'utf-8', internal_encoding: nil do |f|
+      f.readlines
+    end
+  end
+
+  def lines_timing_check(lines, filename)
+    lines.each_slice lines_per_song do |line, _, _|
+      message = "File '#{filename}' contains a bad timing line: '#{line}'."
+      timing = line.split(' ').join ' '
+      unless regex_timing =~ timing
+        puts message
+      end
+    end
+    nil
+  end
+
+  def regex_timing
+    @@regex_timing ||= begin
+      minutes_or_seconds = '[1-9]?[0-9]'
+      ::Regexp::new "^#{minutes_or_seconds} #{minutes_or_seconds}$"
+    end
+  end
+
+  def regex_unprintable
+    @@regex_unprintable ||= ::Regexp::new '[^[:print:]]'
+  end
+end
+
+::Verify.run
