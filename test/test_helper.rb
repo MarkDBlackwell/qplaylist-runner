@@ -12,7 +12,7 @@ require_relative 'test_helper_minitest'
 require 'pp'
 
 
-def test_helper_supplement_load_path
+def load_path_supplement_test_helper
   dirname_file_current = ::Kernel.__dir__
   project_root = ::File.join dirname_file_current, '..'
 
@@ -29,7 +29,7 @@ def test_helper_supplement_load_path
   end
 end
 
-test_helper_supplement_load_path
+load_path_supplement_test_helper
 
 module ::QplaylistRunner
   class QplaylistRunnerTest < ::Minitest::Test

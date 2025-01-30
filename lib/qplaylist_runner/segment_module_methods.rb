@@ -39,7 +39,7 @@ module ::QplaylistRunner
       def basename_playlist_in
         cartridge_number = Invoker.cartridge_number
         airshow = Airshows.lookup cartridge_number
-        index = airshow.cartridge_numbers.find_index{|e| e == cartridge_number}
+        index = airshow.cartridge_numbers.find_index {|e| e == cartridge_number}
         unless index
           basename_null_input
         else
@@ -98,7 +98,7 @@ module ::QplaylistRunner
         lines_unfiltered = ::File.open filename, 'r' do |f|
           f.readlines
         end
-        result = lines_unfiltered.map{|e| e.chomp}.reject{|e| e.empty?}
+        result = lines_unfiltered.map {|e| e.chomp}.reject {|e| e.empty?}
         raise unless 0 == result.length % lines_per_song_standard
         result
       end

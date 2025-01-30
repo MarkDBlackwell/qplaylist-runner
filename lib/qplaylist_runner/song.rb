@@ -28,8 +28,8 @@ module ::QplaylistRunner
       raise unless 3 == lines.length
       time = (lines.at 0).split ' '
       raise unless 2 == time.length
-      @minute, @second = time.map{|e| e.to_i}
-      @artist, @title = (1..2).map{|i| (lines.at i).strip}
+      @minute, @second = time.map {|e| e.to_i}
+      @artist, @title = (1..2).map {|i| (lines.at i).strip}
     end
 
     def <=>(other)

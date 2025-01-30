@@ -8,11 +8,15 @@ Copyright (C) 2018 Mark D. Blackwell.
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 =end
 
-package = 'qplaylist_runner'
+def load_path_supplement
+  package = 'qplaylist_runner'
 
-dirname_file_current = ::Kernel.__dir__
-lib = dirname_file_current
+  dirname_file_current = ::Kernel.__dir__
+  lib = dirname_file_current
 
-branch = ::File.join lib, package
-real = ::File.realpath branch
-$LOAD_PATH.unshift real unless $LOAD_PATH.include? real
+  branch = ::File.join lib, package
+  real = ::File.realpath branch
+  $LOAD_PATH.unshift real unless $LOAD_PATH.include? real
+end
+
+load_path_supplement

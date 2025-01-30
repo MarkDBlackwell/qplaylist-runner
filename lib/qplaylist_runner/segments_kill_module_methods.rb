@@ -24,7 +24,7 @@ module ::QplaylistRunner
       private
 
       def process_identifiers
-        process_identifiers_file_read.map(&:to_i).select{|e| e > 0}.reject{|e| Helper.process_identifier_self == e}
+        process_identifiers_file_read.map(&:to_i).select {|e| e > 0}.reject {|e| Helper.process_identifier_self == e}
       end
 
       def process_identifiers_file_read
