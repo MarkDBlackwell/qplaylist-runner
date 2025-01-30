@@ -16,13 +16,9 @@ module ::QplaylistRunner
   module Airshows
     extend self
 
-    def all
-      @@all ||= airshows
-    end
-
     def lookup(cartridge_number)
       no_airshow_found = ::Kernel.lambda {raise}
-      all.find no_airshow_found do |airshow|
+      airshows.find no_airshow_found do |airshow|
         airshow.cartridge_numbers.include? cartridge_number
       end
     end
@@ -30,16 +26,18 @@ module ::QplaylistRunner
     private
 
     def airshows
-      lines_unfiltered = ::File.open(MyFile.filename_airshows, 'r') {|f| f.readlines}
-      lines = lines_unfiltered.map {|e| Helper.whitespace_compress e}.reject {|e| e.empty? or e.start_with? '#'}
-      result = lines.map {|e| Airshow.new e}.sort
-      check result
-      result
+      @@airshows ||= begin
+        lines_unfiltered = ::File.open(MyFile.filename_airshows, 'r') {|f| f.readlines}
+        lines = lines_unfiltered.map {|e| Helper.whitespace_compress e}.reject {|e| e.empty? or e.start_with? '#'}
+        result = lines.map {|e| Airshow.new e}.sort
+        check result
+        result
+      end
     end
 
     def check(airshows)
-      all = airshows.map(&:cartridge_numbers).reduce :+
-      raise unless all.length == all.uniq.length
+      vector = airshows.map(&:cartridge_numbers).reduce :+
+      raise unless vector.length == vector.uniq.length
       nil
     end
   end
