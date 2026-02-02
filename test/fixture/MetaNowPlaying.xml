@@ -15,4 +15,11 @@
 <milliseconds_left></milliseconds_left>
 <Album></Album>
 <Label></Label>
+<scheduled_title>One More</scheduled_title>
+<scheduled_artist>Harry Nilsson</scheduled_artist>
+<scheduled_trivia></scheduled_trivia>
+<scheduled_category>MUS</scheduled_category>
+<scheduled_cart>0000</scheduled_cart>
+<server>WO-TOWSON-RSX</server>
+<date>0000000000</date>
 </nowplaying>

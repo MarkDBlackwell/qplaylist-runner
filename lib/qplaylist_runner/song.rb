@@ -55,6 +55,10 @@ module ::QplaylistRunner
           @title,
           fill_before_artist_now_playing_meta,
           @artist,
+          fill_before_title_scheduled_now_playing_meta,
+          @title,
+          fill_before_artist_scheduled_now_playing_meta,
+          @artist,
           fill_final_now_playing_meta,
           "\n"
           ].join ''
@@ -84,6 +88,13 @@ HERE_FILL_BEFORE_ARTIST_NOW_PLAYING
 HERE_FILL_BEFORE_ARTIST_NOW_PLAYING_META
     end
 
+    def fill_before_artist_scheduled_now_playing_meta
+      <<HERE_FILL_BEFORE_ARTIST_SCHEDULED_NOW_PLAYING_META.chomp
+</scheduled_title>
+<scheduled_artist>
+HERE_FILL_BEFORE_ARTIST_SCHEDULED_NOW_PLAYING_META
+    end
+
     def fill_before_title_now_playing
       <<HERE_FILL_BEFORE_TITLE_NOW_PLAYING.chomp
 <?xml version='1.0' encoding='ISO-8859-1'?>
@@ -109,6 +120,24 @@ HERE_FILL_BEFORE_TITLE_NOW_PLAYING
 HERE_FILL_BEFORE_TITLE_NOW_PLAYING_META
     end
 
+    def fill_before_title_scheduled_now_playing_meta
+      <<HERE_FILL_BEFORE_TITLE_SCHEDULED_NOW_PLAYING_META.chomp
+</artist>
+<trivia></trivia>
+<category>MUS</category>
+<cart>0000</cart>
+<intro>0</intro>
+<end></end>
+<station>WTMD-FM</station>
+<duration>180000</duration>
+<media_type>SONG</media_type>
+<milliseconds_left></milliseconds_left>
+<Album></Album>
+<Label></Label>
+<scheduled_title>
+HERE_FILL_BEFORE_TITLE_SCHEDULED_NOW_PLAYING_META
+    end
+
     def fill_final_now_playing
       <<HERE_FILL_FINAL_NOW_PLAYING.chomp
 ]]></Artist>
@@ -124,18 +153,12 @@ HERE_FILL_FINAL_NOW_PLAYING
 
     def fill_final_now_playing_meta
       <<HERE_FILL_FINAL_NOW_PLAYING_META.chomp
-</artist>
-<trivia></trivia>
-<category>MUS</category>
-<cart>0000</cart>
-<intro>0</intro>
-<end></end>
-<station>WTMD-FM</station>
-<duration>180000</duration>
-<media_type>SONG</media_type>
-<milliseconds_left></milliseconds_left>
-<Album></Album>
-<Label></Label>
+</scheduled_artist>
+<scheduled_trivia></scheduled_trivia>
+<scheduled_category>MUS</scheduled_category>
+<scheduled_cart>0000</scheduled_cart>
+<server>WO-TOWSON-RSX</server>
+<date>0000000000</date>
 </nowplaying>
 HERE_FILL_FINAL_NOW_PLAYING_META
     end
