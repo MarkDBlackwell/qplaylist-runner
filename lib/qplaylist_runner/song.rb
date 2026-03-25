@@ -69,7 +69,7 @@ module ::QplaylistRunner
     def fill_before_air_time_now_playing_meta
       <<HERE_FILL_BEFORE_AIR_TIME_NOW_PLAYING_META.chomp
 <nowplaying>
-<sched_time>00000000</sched_time>
+<sched_time></sched_time>
 <air_time>
 HERE_FILL_BEFORE_AIR_TIME_NOW_PLAYING_META
     end
